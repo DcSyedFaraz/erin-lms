@@ -22,9 +22,12 @@ use App\Models\SubscriptionPlan;
 
 
   Route::get('/', [HomeController::class, 'index'])->name('home');
-  Route::get('/about', [HomeController::class, 'about'])->name('about');
+  Route::get('/program', [HomeController::class, 'program'])->name('program');
   Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
-
+  Route::get('/about', [HomeController::class, 'about'])->name('about');
+  Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+  Route::get('/membership', [HomeController::class, 'membership'])->name('membership');
+  Route::get('/lesson', [HomeController::class, 'lesson'])->name('lesson');
 
 
 Route::middleware('auth')->group(function () {
