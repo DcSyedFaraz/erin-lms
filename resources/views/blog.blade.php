@@ -30,7 +30,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog1.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog1.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -48,7 +48,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog2.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog2.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -66,7 +66,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog3.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog3.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -84,7 +84,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog4.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog4.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -102,7 +102,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog5.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog5.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -120,7 +120,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog6.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog6.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -138,7 +138,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog7.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog7.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -156,7 +156,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog8.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog8.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>
@@ -174,7 +174,7 @@
                     <div class="col-md-4 col-lg-4">
                         <div class="blog">
                             <a href="blog.html">
-                                <img src="assets/images/blog/blog9.png" alt="">
+                                <img src="{{ asset('assets/images/blog/blog9.png') }}" alt="">
                                 <div class="blog-info">
                                     <div class="blog-date">
                                         <h4>24</h4>

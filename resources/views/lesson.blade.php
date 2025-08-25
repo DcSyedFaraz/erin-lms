@@ -30,7 +30,7 @@
                         <div class="lesson">
                             <a href="#">
                                 <div class="lesson-head">
-                                    <img src="assets/images/lesson/lesson1.png" alt="">
+                                    <img src="{{ asset('assets/images/lesson/lesson1.png') }}" alt="">
                                 </div>
                                 <div class="lesson-body">
                                     <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. vivamus posuere molestie
@@ -44,7 +44,7 @@
                         <div class="lesson">
                             <a href="#">
                                 <div class="lesson-head">
-                                    <img src="assets/images/lesson/lesson2.png" alt="">
+                                    <img src="{{ asset('assets/images/lesson/lesson2.png') }}" alt="">
                                 </div>
                                 <div class="lesson-body">
                                     <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. vivamus posuere molestie
@@ -58,7 +58,7 @@
                         <div class="lesson">
                             <a href="#">
                                 <div class="lesson-head">
-                                    <img src="assets/images/lesson/lesson3.png" alt="">
+                                    <img src="{{ asset('assets/images/lesson/lesson3.png') }}" alt="">
                                 </div>
                                 <div class="lesson-body">
                                     <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. vivamus posuere molestie
@@ -72,7 +72,7 @@
                         <div class="lesson">
                             <a href="#">
                                 <div class="lesson-head">
-                                    <img src="assets/images/lesson/lesson4.png" alt="">
+                                    <img src="{{ asset('assets/images/lesson/lesson4.png') }}" alt="">
                                 </div>
                                 <div class="lesson-body">
                                     <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. vivamus posuere molestie
@@ -86,7 +86,7 @@
                         <div class="lesson">
                             <a href="#">
                                 <div class="lesson-head">
-                                    <img src="assets/images/lesson/lesson5.png" alt="">
+                                    <img src="{{ asset('assets/images/lesson/lesson5.png') }}" alt="">
                                 </div>
                                 <div class="lesson-body">
                                     <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. vivamus posuere molestie
@@ -100,7 +100,7 @@
                         <div class="lesson">
                             <a href="#">
                                 <div class="lesson-head">
-                                    <img src="assets/images/lesson/lesson6.png" alt="">
+                                    <img src="{{ asset('assets/images/lesson/lesson6.png') }}" alt="">
                                 </div>
                                 <div class="lesson-body">
                                     <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. vivamus posuere molestie

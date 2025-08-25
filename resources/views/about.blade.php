@@ -33,17 +33,17 @@
                             <div class="col-md-4">
                                 <div class="vid1">
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="vid2">
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                 </div>
                             </div>
@@ -54,17 +54,17 @@
                             <div class="col-md-4">
                                 <div class="vid1">
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="vid2">
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                 </div>
                             </div>
@@ -75,17 +75,17 @@
                             <div class="col-md-4">
                                 <div class="vid1">
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="vid2">
                                     <video
-                                        src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                         controls></video>
                                 </div>
                             </div>

@@ -47,7 +47,7 @@
                      </a>
                  </li>
 
-                 <li class="nav-item">
+                 <li class="nav-item"> 
                      <a href="{{ route('users.index') }}"
                          class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                          <i class="nav-icon fas fa-th"></i>
@@ -78,6 +78,20 @@
                          <p>Plans</p>
                      </a>
                  </li>
+
+                 <li class="nav-item">
+                     <a href="{{ route('logout') }}"
+                         class="nav-link {{ request()->routeIs('logout.*') ? 'active' : '' }}"
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                         <i class="nav-icon fas fa-th"></i>
+                         <p>Logout</p>
+                     </a>
+
+                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                         @csrf
+                     </form>
+                 </li>
+
                  {{-- <li class="nav-item">
                      <a href="#" class="nav-link">
                          <i class="nav-icon fas fa-copy"></i>

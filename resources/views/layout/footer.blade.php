@@ -4,21 +4,21 @@
                 <div class="foot-d">
                     <div class="firstcol">
                         <a href="index.html">
-                            <img class="foot-logo" src="assets/images/logo.png" alt="">
+                            <img class="foot-logo" src="{{ asset('assets/images/logo.png') }}" alt="">
                         </a>
                         <h4>Follow Our Social Media</h4>
                         <div class="socials">
                             <a href="#">
-                                <img src="assets/images/Facebook.png" alt="">
+                                <img src="{{ asset('assets/images/Facebook.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="assets/images/Youtube.png" alt="">
+                                <img src="{{ asset('assets/images/Youtube.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="assets/images/Instagram.png" alt="">
+                                <img src="{{ asset('assets/images/Instagram.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="assets/images/Pinterest.png" alt="">
+                                <img src="{{ asset('assets/images/Pinterest.png') }}" alt="">
                             </a>
                         </div>
                     </div>

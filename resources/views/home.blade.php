@@ -20,7 +20,7 @@
             <div class="row align-items-center">
                 <div class="col-md-4">
                     <div class="service">
-                        <img src="assets/images/p1.png" alt="">
+                        <img src="{{ asset('assets/images/p1.png') }}" alt="">
                         <h4>Lorem Ipsum</h4>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna</p>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="service">
-                        <img src="assets/images/p2.png" alt="">
+                        <img src="{{ asset('assets/images/p2.png') }}" alt="">
                         <h4>Lorem Ipsum</h4>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna</p>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="service">
-                        <img src="assets/images/p3.png" alt="">
+                        <img src="{{ asset('assets/images/p3.png') }}" alt="">
                         <h4>Lorem Ipsum</h4>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna</p>
@@ -66,18 +66,18 @@
                     <div class="row align-items-center">
                         <div class="col-md-4">
                             <div class="vid1">
-                                <video
-                                    src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                   <video
+                                    src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                     controls></video>
-                                <video
-                                    src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                 <video
+                                    src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                     controls></video>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="vid2">
                                 <video
-                                    src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                                    src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                                     controls></video>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                 <div class="package">
                     <a href="#">
                         <div class="pack-head">
-                            <img src="assets/images/package1.png" alt="">
+                            <img src="{{ asset('assets/images/package1.png') }}" alt="">
                         </div>
                         <div class="pack-body">
                             <h5>Lorem Ipsum</h5>
@@ -115,7 +115,7 @@
                 <div class="package">
                     <a href="#">
                         <div class="pack-head">
-                            <img src="assets/images/package2.png" alt="">
+                            <img src="{{ asset('assets/images/package2.png') }}" alt="">
                         </div>
                         <div class="pack-body">
                             <h5>Lorem Ipsum</h5>
@@ -132,7 +132,7 @@
                 <div class="package">
                     <a href="#">
                         <div class="pack-head">
-                            <img src="assets/images/package3.png" alt="">
+                            <img src="{{ asset('assets/images/package3.png') }}" alt="">
                         </div>
                         <div class="pack-body">
                             <h5>Lorem Ipsum</h5>
@@ -149,7 +149,7 @@
                 <div class="package">
                     <a href="#">
                         <div class="pack-head">
-                            <img src="assets/images/package4.png" alt="">
+                            <img src="{{ asset('assets/images/package4.png') }}" alt="">
                         </div>
                         <div class="pack-body">
                             <h5>Lorem Ipsum</h5>
@@ -166,7 +166,7 @@
                 <div class="package">
                     <a href="#">
                         <div class="pack-head">
-                            <img src="assets/images/package5.png" alt="">
+                            <img src="{{ asset('assets/images/package5.png') }}" alt="">
                         </div>
                         <div class="pack-body">
                             <h5>Lorem Ipsum</h5>
@@ -200,42 +200,42 @@
                 <div class="col-md-4">
                     <div class="sec5-vids">
                         <video
-                            src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                             src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                             controls></video>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sec5-vids">
                         <video
-                            src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                             src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                             controls></video>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sec5-vids">
                         <video
-                            src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                             src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                             controls></video>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sec5-vids">
                         <video
-                            src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                             src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                             controls></video>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sec5-vids">
                         <video
-                            src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                             src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                             controls></video>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sec5-vids">
                         <video
-                            src="assets/images/Dummy Video For YouTube API Test - Maximilian Mustermann (720p, h264).mp4"
+                             src="{{ asset('assets/images/dummy_video_test.mp4') }}"
                             controls></video>
                     </div>
                 </div>
@@ -250,7 +250,7 @@
             <div class="owl-carousel owl-theme testi-caro">
                 <div class="item">
                     <div class="testimonial">
-                        <img src="assets/images/prof.png" alt="">
+                        <img src="{{ asset('assets/images/prof.png') }}" alt="">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris vulputate
                             fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce lectus
                             purus, malesuada sed ligula ut,</p>
@@ -259,7 +259,7 @@
                 </div>
                 <div class="item">
                     <div class="testimonial">
-                        <img src="assets/images/prof.png" alt="">
+                        <img src="{{ asset('assets/images/prof.png') }}" alt="">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris vulputate
                             fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce lectus
                             purus, malesuada sed ligula ut,</p>
@@ -268,7 +268,7 @@
                 </div>
                 <div class="item">
                     <div class="testimonial">
-                        <img src="assets/images/prof.png" alt="">
+                        <img src="{{ asset('assets/images/prof.png') }}" alt="">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris vulputate
                             fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce lectus
                             purus, malesuada sed ligula ut,</p>
@@ -277,7 +277,7 @@
                 </div>
                 <div class="item">
                     <div class="testimonial">
-                        <img src="assets/images/prof.png" alt="">
+                        <img src="{{ asset('assets/images/prof.png') }}" alt="">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris vulputate
                             fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce lectus
                             purus, malesuada sed ligula ut,</p>
@@ -307,7 +307,7 @@
                 </div>
                 <div class="col-md-7">
                     <div class="cta">
-                        <img src="assets/images/form-pic.png" alt="">
+                        <img src="{{ asset('assets/images/form-pic.png') }}" alt="">
                         <div class="cta-content">
                             <h5>GET IN TOUCH</h5>
                             <p>Lorem Ipsum is simply dummy</p>

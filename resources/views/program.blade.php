@@ -19,7 +19,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-4">
                         <div class="service">
-                            <img src="assets/images/p1.png" alt="">
+                            <img src="{{ asset('assets/images/p1.png') }}" alt="">
                             <h4>Lorem Ipsum</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="service">
-                            <img src="assets/images/p2.png" alt="">
+                            <img src="{{ asset('assets/images/p2.png') }}" alt="">
                             <h4>Lorem Ipsum</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="service">
-                            <img src="assets/images/p3.png" alt="">
+                            <img src="{{ asset('assets/images/p3.png') }}" alt="">
                             <h4>Lorem Ipsum</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut
@@ -63,7 +63,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package1.png" alt="">
+                                <img src="{{ asset('assets/images/program/package1.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -81,7 +81,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package2.png" alt="">
+                                <img src="{{ asset('assets/images/program/package2.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -99,7 +99,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package3.png" alt="">
+                                <img src="{{ asset('assets/images/program/package3.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -117,7 +117,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package4.png" alt="">
+                                <img src="{{ asset('assets/images/program/package4.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -135,7 +135,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package5.png" alt="">
+                                <img src="{{ asset('assets/images/program/package5.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -153,7 +153,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package6.png" alt="">
+                                <img src="{{ asset('assets/images/program/package6.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -171,7 +171,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package7.png" alt="">
+                                <img src="{{ asset('assets/images/program/package7.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -189,7 +189,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package8.png" alt="">
+                                <img src="{{ asset('assets/images/program/package8.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -207,7 +207,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package9.png" alt="">
+                                <img src="{{ asset('assets/images/program/package9.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -225,7 +225,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package10.png" alt="">
+                                <img src="{{ asset('assets/images/program/package10.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -243,7 +243,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package11.png" alt="">
+                                <img src="{{ asset('assets/images/program/package11.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -261,7 +261,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package12.png" alt="">
+                                <img src="{{ asset('assets/images/program/package12.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -279,7 +279,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package13.png" alt="">
+                                <img src="{{ asset('assets/images/program/package13.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -297,7 +297,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package14.png" alt="">
+                                <img src="{{ asset('assets/images/program/package14.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -315,7 +315,7 @@
                     <div class="package">
                         <a href="#">
                             <div class="pack-head">
-                                <img src="assets/images/program/package15.png" alt="">
+                                <img src="{{ asset('assets/images/program/package15.png') }}" alt="">
                             </div>
                             <div class="pack-body">
                                 <h5>Lorem Ipsum</h5>
@@ -341,7 +341,7 @@
                 <div class="owl-carousel owl-theme testi-caro">
                     <div class="item">
                         <div class="testimonial">
-                            <img src="assets/images/prof.png" alt="">
+                            <img src="{{ asset('assets/images/prof.png') }}" alt="">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris
                                 vulputate
                                 fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce
@@ -352,7 +352,7 @@
                     </div>
                     <div class="item">
                         <div class="testimonial">
-                            <img src="assets/images/prof.png" alt="">
+                            <img src="{{ asset('assets/images/prof.png') }}" alt="">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris
                                 vulputate
                                 fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce
@@ -363,7 +363,7 @@
                     </div>
                     <div class="item">
                         <div class="testimonial">
-                            <img src="assets/images/prof.png" alt="">
+                            <img src="{{ asset('assets/images/prof.png') }}" alt="">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris
                                 vulputate
                                 fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce
@@ -374,7 +374,7 @@
                     </div>
                     <div class="item">
                         <div class="testimonial">
-                            <img src="assets/images/prof.png" alt="">
+                            <img src="{{ asset('assets/images/prof.png') }}" alt="">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget leo in mauris
                                 vulputate
                                 fermentum id eget dui. Ut ac purus sit amet ex finibus ultricies ac eu neque. Fusce
@@ -406,7 +406,7 @@
                     </div>
                     <div class="col-md-7">
                         <div class="cta">
-                            <img src="assets/images/program/form-beside.png" alt="">
+                            <img src="{{ asset('assets/images/program/form-beside.png') }}" alt="">
                             <div class="cta-content">
                                 <h5>GET IN TOUCH</h5>
                                 <p>Lorem Ipsum is simply dummy</p>

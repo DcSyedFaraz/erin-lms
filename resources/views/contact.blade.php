@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-md-7">
                         <div class="cta">
-                            <img src="assets/images/contact/form-beside.png" alt="">
+                            <img src="{{ asset('assets/images/contact/form-beside.png') }} 1500s" alt="">
                             <div class="cta-content">
                                 <h5>GET IN TOUCH</h5>
                                 <p>Lorem Ipsum is simply dummy</p>
