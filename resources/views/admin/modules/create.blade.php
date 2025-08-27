@@ -2,8 +2,8 @@
 
 @section('content')
 <div class='container'>
-    <h1>Create Module for {{ \$course->title ?? 'Course' }}</h1>
-    <form method='POST' action='{{ route('modules.store', \$course) }}'>
+    <h1>Create Module for {{ $course->title ?? 'Course' }}</h1>
+    <form method='POST' action='{{ route('modules.store', $course) }}'>
         @csrf
         <div>
             <label>Title</label>
