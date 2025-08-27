@@ -3,7 +3,7 @@
 @section('content')
 <div class='container'>
     <h1>Create Module for {{ $course->title ?? 'Course' }}</h1>
-    <form method='POST' action='{{ route('modules.store', $course) }}'>
+    <form method='POST' action='{{ route('modules.store', $course) }}' enctype='multipart/form-data'>
         @csrf
         <div>
             <label>Title</label>
@@ -18,6 +18,19 @@
             <input type='text' name='text_contents[]'>
         </div>
         <button type='button' onclick='addText()'>Add Text</button>
+
+        <div>
+            <label>PDF Files</label>
+            <input type='file' name='pdfs[]' accept='.pdf' multiple>
+        </div>
+        <div>
+            <label>Images</label>
+            <input type='file' name='images[]' accept='image/*' multiple>
+        </div>
+        <div>
+            <label>Videos</label>
+            <input type='file' name='videos[]' accept='video/*' multiple>
+        </div>
         <button type='submit'>Next</button>
     </form>
 </div>
