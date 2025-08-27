@@ -22,7 +22,6 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
-                            <th>Instructor</th>
                             <th>Status</th>
                             <th>Category</th>
                             <th>Action</th>
@@ -33,7 +32,6 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $course->title }}</td>
-                                <td>{{ $course->instructor->name }}</td>
                                 <td>{{ ucfirst($course->status) }}</td>
                                 <td>{{ $course->category->name }}</td>
                                 <td>

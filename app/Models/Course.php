@@ -12,7 +12,6 @@ class Course extends Model
         'thumbnail',
         'category_id',
         'level_id',
-        'instructor_id',
         'is_premium',
         'price',
         'status',
@@ -25,10 +24,7 @@ class Course extends Model
     {
         return $this->belongsTo(Level::class);
     }
-    public function instructor()
-    {
-        return $this->belongsTo(User::class, 'instructor_id');
-    }
+
 
     public function modules()
     {

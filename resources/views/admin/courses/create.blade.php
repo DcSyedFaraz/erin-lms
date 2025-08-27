@@ -55,18 +55,7 @@
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-md-4">
-                                    <label class="form-label" for="instructor_id">Instructor</label>
-                                    <select name="instructor_id" id="instructor_id" class="form-select" required>
-                                        <option value="">-- Select Instructor --</option>
-                                        @foreach ($instructors as $instructor)
-                                            <option value="{{ $instructor->id }}" {{ old('instructor_id') == $instructor->id ? 'selected' : '' }}>{{ $instructor->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('instructor_id')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+
                             </div>
 
                             <div class="row mb-3">

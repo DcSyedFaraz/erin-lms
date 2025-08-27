@@ -58,12 +58,7 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::resource('plans', SubscriptionPlanController::class);
 });
 
-// Instructor Routes
-Route::prefix('instructor')->middleware(['auth', 'role:Instructor'])->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Welcome Instructor';
-    });
-});
+
 
 // Learner Routes
 Route::prefix('learner')->middleware(['auth', 'role:Learner'])->group(function () {

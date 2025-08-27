@@ -16,7 +16,7 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        $courses = Course::with('instructor', 'category')
+        $courses = Course::with('category')
             ->latest()
             ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->paginate(10);
@@ -31,9 +31,8 @@ class CourseController extends Controller
     {
         $categories = Category::all();
         $levels = Level::all();
-        $instructors = User::role('Instructor')->get();
 
-        return view('admin.courses.create', compact('categories', 'levels', 'instructors'));
+        return view('admin.courses.create', compact('categories', 'levels'));
     }
 
     /**
@@ -47,7 +46,6 @@ class CourseController extends Controller
             'thumbnail' => 'nullable|image',
             'category_id' => 'required|exists:categories,id',
             'level_id' => 'required|exists:levels,id',
-            'instructor_id' => 'required|exists:users,id',
             'is_premium' => 'nullable|boolean',
             'price' => 'nullable|numeric',
             'status' => 'required|in:draft,published',
@@ -69,7 +67,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load('instructor', 'category', 'level', 'modules');
+        $course->load('category', 'level', 'modules');
 
         return view('admin.courses.show', compact('course'));
     }

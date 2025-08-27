@@ -11,7 +11,7 @@
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <p><strong>Instructor:</strong> {{ $course->instructor->name }}</p>
+
                         <p><strong>Category:</strong> {{ $course->category->name }}</p>
                         <p><strong>Level:</strong> {{ $course->level->name }}</p>
                         <p><strong>Status:</strong> {{ ucfirst($course->status) }}</p>

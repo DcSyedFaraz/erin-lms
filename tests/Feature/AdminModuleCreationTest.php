@@ -25,7 +25,6 @@ class AdminModuleCreationTest extends TestCase
             'description' => 'Desc',
             'category_id' => $category->id,
             'level_id' => $level->id,
-            'instructor_id' => $user->id,
             'status' => 'draft',
             'is_premium' => false,
         ]);

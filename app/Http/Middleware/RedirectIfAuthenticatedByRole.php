@@ -21,8 +21,6 @@ class RedirectIfAuthenticatedByRole
 
             if ($user->hasRole('Admin')) {
                 return redirect('/admin/dashboard');
-            } elseif ($user->hasRole('Instructor')) {
-                return redirect('/instructor/dashboard');
             } else {
                 return redirect('/learner/dashboard');
             }
