@@ -17,15 +17,49 @@ class ModuleController extends Controller
 
     public function store(Request $request, Course $course): RedirectResponse
     {
-        $module = $course->modules()->create($request->only('title', 'description'));
+        $data = $request->validate([
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'text_contents' => 'array',
+            'text_contents.*' => 'nullable|string',
+            'pdfs.*' => 'file|mimes:pdf',
+            'images.*' => 'image',
+            'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo',
+        ]);
 
-        foreach ($request->input('text_contents', []) as $text) {
+        $module = $course->modules()->create([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+        ]);
+
+        foreach ($data['text_contents'] ?? [] as $text) {
             if ($text) {
                 $module->contents()->create([
                     'type' => 'text',
                     'text' => $text,
                 ]);
             }
+        }
+
+        foreach ($request->file('pdfs', []) as $file) {
+            $module->contents()->create([
+                'type' => 'pdf',
+                'path' => $file->store('module_contents', 'public'),
+            ]);
+        }
+
+        foreach ($request->file('images', []) as $file) {
+            $module->contents()->create([
+                'type' => 'image',
+                'path' => $file->store('module_contents', 'public'),
+            ]);
+        }
+
+        foreach ($request->file('videos', []) as $file) {
+            $module->contents()->create([
+                'type' => 'video',
+                'path' => $file->store('module_contents', 'public'),
+            ]);
         }
 
         return redirect()->route('modules.quiz.create', $module);
