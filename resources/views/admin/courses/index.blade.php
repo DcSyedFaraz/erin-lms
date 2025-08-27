@@ -7,10 +7,16 @@
                 {{-- Heading and Create Button --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0">Courses List</h4>
-                    {{-- <a href="{{ route('courses.create') }}" class="btn btn-primary">
+                    <a href="{{ route('courses.create') }}" class="btn btn-primary">
                         + Create Course
-                    </a> --}}
+                    </a>
                 </div>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <table id="coursesTable" class="table table-bordered">
                     <thead>
                         <tr>
@@ -31,11 +37,11 @@
                                 <td>{{ ucfirst($course->status) }}</td>
                                 <td>{{ $course->category->name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.courses.show', $course->id) }}"
+                                    <a href="{{ route('courses.show', $course->id) }}"
                                         class="btn btn-info btn-sm">View</a>
 
                                     @if ($course->status != 'approved')
-                                        <form action="{{ route('admin.courses.approve', $course) }}" method="POST"
+                                        <form action="{{ route('courses.approve', $course) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             <button type="submit" class="btn btn-success btn-sm">Approve</button>
@@ -43,14 +49,14 @@
                                     @endif
 
                                     @if ($course->status != 'archived')
-                                        <form action="{{ route('admin.courses.archive', $course) }}" method="POST"
+                                        <form action="{{ route('courses.archive', $course) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm">Archive</button>
                                         </form>
                                     @endif
 
-                                    <form action="{{ route('admin.courses.destroy', $course) }}" method="POST"
+                                    <form action="{{ route('courses.destroy', $course) }}" method="POST"
                                         style="display:inline;">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
