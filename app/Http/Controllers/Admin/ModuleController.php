@@ -73,14 +73,40 @@ class ModuleController extends Controller
     public function storeQuiz(Request $request, Module $module): RedirectResponse
     {
         $data = $request->validate([
-            'question' => 'required|string',
-            'type' => 'required|string',
-            'options' => 'nullable|array',
-            'answer' => 'required|string',
+            'questions' => 'required|array',
+            'questions.*.question' => 'required|string',
+            'questions.*.type' => 'required|in:multiple_choice,true_false',
+            'questions.*.options' => 'nullable|array',
+            'questions.*.answer' => 'required|string',
+            'questions.*.points' => 'nullable|integer|min:1|max:10',
         ]);
 
-        $module->quizzes()->create($data);
+        $questionsCreated = 0;
 
-        return redirect()->route('courses.show', $module->course)->with('success', 'Module created');
+        foreach ($data['questions'] as $questionData) {
+            // Validate multiple choice questions have options
+            if ($questionData['type'] === 'multiple_choice') {
+                if (empty($questionData['options']) || count(array_filter($questionData['options'])) < 2) {
+                    return back()->withErrors(['questions' => 'Multiple choice questions must have at least 2 options.']);
+                }
+            }
+
+            // Create the quiz question
+            $quiz = $module->quizzes()->create([
+                'question' => $questionData['question'],
+                'type' => $questionData['type'],
+                'options' => $questionData['options'] ?? null,
+                'answer' => $questionData['answer'],
+                'points' => $questionData['points'] ?? 1,
+            ]);
+
+            $questionsCreated++;
+        }
+
+        $message = $questionsCreated === 1
+            ? 'Quiz question created successfully!'
+            : "{$questionsCreated} quiz questions created successfully!";
+
+        return redirect()->route('courses.show', $module->course)->with('success', $message);
     }
 }
