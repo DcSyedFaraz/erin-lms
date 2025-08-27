@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ use App\Models\SubscriptionPlan;
   Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
   Route::get('/membership', [HomeController::class, 'membership'])->name('membership');
   Route::get('/lesson', [HomeController::class, 'lesson'])->name('lesson');
+  Route::view('/dashboard', 'dashboard')->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -47,6 +49,11 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::resource('courses', CourseController::class);
     Route::post('/courses/{course}/approve', [CourseController::class, 'approve'])->name('courses.approve');
     Route::post('/courses/{course}/archive', [CourseController::class, 'archive'])->name('courses.archive');
+
+    Route::get('courses/{course}/modules/create', [ModuleController::class, 'create'])->name('modules.create');
+    Route::post('courses/{course}/modules', [ModuleController::class, 'store'])->name('modules.store');
+    Route::get('modules/{module}/quiz', [ModuleController::class, 'createQuiz'])->name('modules.quiz.create');
+    Route::post('modules/{module}/quiz', [ModuleController::class, 'storeQuiz'])->name('modules.quiz.store');
 
     Route::resource('plans', SubscriptionPlanController::class);
 });
