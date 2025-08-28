@@ -15,7 +15,7 @@
                         <p><strong>Category:</strong> {{ $course->category->name }}</p>
                         <p><strong>Level:</strong> {{ $course->level->name }}</p>
                         <p><strong>Status:</strong> {{ ucfirst($course->status) }}</p>
-                        @if($course->is_premium)
+                        @if ($course->is_premium)
                             <p><strong>Price:</strong> {{ $course->price }}</p>
                         @endif
                         <p>{{ $course->description }}</p>
@@ -54,8 +54,12 @@
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
-        integrity="sha256-lHWgxtJfxG8IbULsFIdl7TVAT7C1v6Y7C5H0b94E5w8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css"
+        integrity="sha512-TFee0335YRJoyiqz8hA8KV3P0tXa5CpRBSoM0Wnkn7JoJx1kaq1yXL/rb8YFpWXkMOjRcv5txv+C6UluttluCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"
+        integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(function() {
             $('#modules-list').sortable({
@@ -73,4 +77,3 @@
         });
     </script>
 @endsection
-
