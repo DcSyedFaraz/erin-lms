@@ -54,6 +54,8 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('courses/{course}/modules', [ModuleController::class, 'store'])->name('modules.store');
     Route::get('modules/{module}/quiz', [ModuleController::class, 'createQuiz'])->name('modules.quiz.create');
     Route::post('modules/{module}/quiz', [ModuleController::class, 'storeQuiz'])->name('modules.quiz.store');
+    Route::get('modules/{module}/quiz/edit', [ModuleController::class, 'editQuiz'])->name('modules.quiz.edit');
+    Route::put('modules/{module}/quiz', [ModuleController::class, 'updateQuiz'])->name('modules.quiz.update');
     Route::get('modules/{module}', [ModuleController::class, 'show'])->name('modules.show');
     Route::get('modules/{module}/edit', [ModuleController::class, 'edit'])->name('modules.edit');
     Route::put('modules/{module}', [ModuleController::class, 'update'])->name('modules.update');
