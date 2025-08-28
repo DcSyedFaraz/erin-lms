@@ -8,6 +8,7 @@ use App\Models\Module;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
 {
@@ -85,9 +86,65 @@ class ModuleController extends Controller
         $data = $request->validate([
             'title' => 'required|string',
             'description' => 'nullable|string',
+            'text_contents' => 'array',
+            'text_contents.*' => 'nullable|string',
+            'pdfs.*' => 'file|mimes:pdf',
+            'images.*' => 'image',
+            'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo',
+            'remove_contents' => 'array',
+            'remove_contents.*' => 'integer|exists:module_contents,id',
         ]);
 
-        $module->update($data);
+        $module->update([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+        ]);
+
+        // Remove selected contents
+        if (!empty($data['remove_contents'])) {
+            $contents = $module->contents()->whereIn('id', $data['remove_contents'])->get();
+            foreach ($contents as $content) {
+                if ($content->path) {
+                    Storage::disk('public')->delete($content->path);
+                }
+                $content->delete();
+            }
+        }
+
+        // Replace text contents
+        if (isset($data['text_contents'])) {
+            $module->contents()->where('type', 'text')->delete();
+            foreach ($data['text_contents'] as $text) {
+                if ($text) {
+                    $module->contents()->create([
+                        'type' => 'text',
+                        'text' => $text,
+                    ]);
+                }
+            }
+        }
+
+        // Append uploaded files
+        foreach ($request->file('pdfs', []) as $file) {
+            $module->contents()->create([
+                'type' => 'pdf',
+                'path' => $file->store('module_contents', 'public'),
+            ]);
+        }
+
+        foreach ($request->file('images', []) as $file) {
+            $module->contents()->create([
+                'type' => 'image',
+                'path' => $file->store('module_contents', 'public'),
+            ]);
+        }
+
+        foreach ($request->file('videos', []) as $file) {
+            $module->contents()->create([
+                'type' => 'video',
+                'path' => $file->store('module_contents', 'public'),
+            ]);
+        }
 
         return redirect()->route('courses.show', $module->course)->with('success', 'Module updated successfully.');
     }
