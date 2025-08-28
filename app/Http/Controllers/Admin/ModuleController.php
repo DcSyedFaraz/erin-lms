@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Module;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -27,9 +28,12 @@ class ModuleController extends Controller
             'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo',
         ]);
 
+        $order = ($course->modules()->max('order') ?? 0) + 1;
+
         $module = $course->modules()->create([
             'title' => $data['title'],
             'description' => $data['description'] ?? null,
+            'order' => $order,
         ]);
 
         foreach ($data['text_contents'] ?? [] as $text) {
@@ -63,6 +67,51 @@ class ModuleController extends Controller
         }
 
         return redirect()->route('modules.quiz.create', $module);
+    }
+
+    public function show(Module $module)
+    {
+        $module->load('contents', 'quizzes');
+        return view('admin.modules.show', compact('module'));
+    }
+
+    public function edit(Module $module)
+    {
+        return view('admin.modules.edit', compact('module'));
+    }
+
+    public function update(Request $request, Module $module): RedirectResponse
+    {
+        $data = $request->validate([
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $module->update($data);
+
+        return redirect()->route('courses.show', $module->course)->with('success', 'Module updated successfully.');
+    }
+
+    public function destroy(Module $module): RedirectResponse
+    {
+        $course = $module->course;
+        $module->delete();
+
+        return redirect()->route('courses.show', $course)->with('success', 'Module deleted successfully.');
+    }
+
+    public function reorder(Request $request, Course $course): JsonResponse
+    {
+        $data = $request->validate([
+            'order' => 'required|array',
+            'order.*' => 'integer|exists:modules,id',
+        ]);
+
+        foreach ($data['order'] as $index => $id) {
+            Module::where('id', $id)->where('course_id', $course->id)->update(['order' => $index]);
+        }
+
+        return response()->json(['status' => 'ok']);
     }
 
     public function createQuiz(Module $module)

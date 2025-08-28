@@ -54,6 +54,11 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('courses/{course}/modules', [ModuleController::class, 'store'])->name('modules.store');
     Route::get('modules/{module}/quiz', [ModuleController::class, 'createQuiz'])->name('modules.quiz.create');
     Route::post('modules/{module}/quiz', [ModuleController::class, 'storeQuiz'])->name('modules.quiz.store');
+    Route::get('modules/{module}', [ModuleController::class, 'show'])->name('modules.show');
+    Route::get('modules/{module}/edit', [ModuleController::class, 'edit'])->name('modules.edit');
+    Route::put('modules/{module}', [ModuleController::class, 'update'])->name('modules.update');
+    Route::delete('modules/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+    Route::post('courses/{course}/modules/reorder', [ModuleController::class, 'reorder'])->name('modules.reorder');
 
     Route::resource('plans', SubscriptionPlanController::class);
 });
