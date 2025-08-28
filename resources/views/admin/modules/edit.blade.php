@@ -252,6 +252,9 @@
                                 <a href="{{ route('modules.show', $module) }}" class="btn btn-outline-info">
                                     <i class="fas fa-eye me-2"></i>Preview Module
                                 </a>
+                                <a href="{{ route('modules.quiz.edit', $module) }}" class="btn btn-outline-warning">
+                                    <i class="fas fa-question-circle me-2"></i>Edit Quizzes
+                                </a>
                                 <hr class="my-3">
                                 <a href="{{ route('courses.show', $module->course) }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-arrow-left me-2"></i>Back to Course

@@ -215,4 +215,56 @@ class ModuleController extends Controller
 
         return redirect()->route('courses.show', $module->course)->with('success', $message);
     }
+
+    public function editQuiz(Module $module)
+    {
+        $module->load('quizzes');
+        return view('admin.modules.edit_quiz', compact('module'));
+    }
+
+    public function updateQuiz(Request $request, Module $module): RedirectResponse
+    {
+        $data = $request->validate([
+            'questions' => 'required|array',
+            'questions.*.id' => 'nullable|exists:quizzes,id',
+            'questions.*.question' => 'required|string',
+            'questions.*.type' => 'required|in:multiple_choice,true_false',
+            'questions.*.options' => 'nullable|array',
+            'questions.*.answer' => 'required|string',
+            'questions.*.points' => 'nullable|integer|min:1|max:10',
+        ]);
+
+        $existingIds = collect($data['questions'])->pluck('id')->filter()->all();
+        $module->quizzes()->whereNotIn('id', $existingIds)->delete();
+
+        $updatedCount = 0;
+
+        foreach ($data['questions'] as $questionData) {
+            if (!empty($questionData['id'])) {
+                $quiz = $module->quizzes()->where('id', $questionData['id'])->firstOrFail();
+                $quiz->update([
+                    'question' => $questionData['question'],
+                    'type' => $questionData['type'],
+                    'options' => $questionData['type'] === 'multiple_choice' ? $questionData['options'] : null,
+                    'answer' => $questionData['answer'],
+                    'points' => $questionData['points'] ?? 1,
+                ]);
+            } else {
+                $module->quizzes()->create([
+                    'question' => $questionData['question'],
+                    'type' => $questionData['type'],
+                    'options' => $questionData['type'] === 'multiple_choice' ? $questionData['options'] : null,
+                    'answer' => $questionData['answer'],
+                    'points' => $questionData['points'] ?? 1,
+                ]);
+            }
+            $updatedCount++;
+        }
+
+        $message = $updatedCount === 1
+            ? 'Quiz question updated successfully!'
+            : "{$updatedCount} quiz questions updated successfully!";
+
+        return redirect()->route('courses.show', $module->course)->with('success', $message);
+    }
 }
