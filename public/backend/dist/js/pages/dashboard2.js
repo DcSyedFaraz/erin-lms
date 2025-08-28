@@ -65,12 +65,12 @@ $(function () {
 
   // This will get the first returned node in the jQuery collection.
   // eslint-disable-next-line no-unused-vars
-  var salesChart = new Chart(salesChartCanvas, {
-    type: 'line',
-    data: salesChartData,
-    options: salesChartOptions
-  }
-  )
+//   var salesChart = new Chart(salesChartCanvas, {
+//     type: 'line',
+//     data: salesChartData,
+//     options: salesChartOptions
+//   }
+//   )
 
   //---------------------------
   // - END MONTHLY SALES CHART -
@@ -105,11 +105,11 @@ $(function () {
   // Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.
   // eslint-disable-next-line no-unused-vars
-  var pieChart = new Chart(pieChartCanvas, {
-    type: 'doughnut',
-    data: pieData,
-    options: pieOptions
-  })
+//   var pieChart = new Chart(pieChartCanvas, {
+//     type: 'doughnut',
+//     data: pieData,
+//     options: pieOptions
+//   })
 
   //-----------------
   // - END PIE CHART -

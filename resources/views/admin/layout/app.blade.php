@@ -27,6 +27,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{-- DataTable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    {{-- Custom Course & Module Styles --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/admin-course-module.css') }}">
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -100,7 +102,6 @@
     <script src="{{ asset('backend/dist/plugins/chart.js/Chart.min.js') }}"></script>
 
     <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('backend/dist/js/pages/dashboard2.js') }}"></script>
 
