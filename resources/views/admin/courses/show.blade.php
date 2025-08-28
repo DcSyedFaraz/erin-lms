@@ -27,17 +27,50 @@
                     <a href="{{ route('modules.create', $course) }}" class="btn btn-primary btn-sm">+ Add Module</a>
                 </div>
 
-                @forelse ($course->modules as $module)
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $module->title }}</h5>
-                        </div>
-                    </div>
-                @empty
-                    <p>No modules yet.</p>
-                @endforelse
+                <ul id="modules-list" class="list-unstyled">
+                    @forelse ($course->modules as $module)
+                        <li class="card mb-2 module-item" data-id="{{ $module->id }}">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span class="handle mr-2"><i class="fas fa-arrows-alt"></i></span>
+                                <span class="flex-grow-1">{{ $module->title }}</span>
+                                <div>
+                                    <a href="{{ route('modules.show', $module) }}" class="btn btn-info btn-sm">Show</a>
+                                    <a href="{{ route('modules.edit', $module) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('modules.destroy', $module) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    @empty
+                        <p>No modules yet.</p>
+                    @endforelse
+                </ul>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+        integrity="sha256-lHWgxtJfxG8IbULsFIdl7TVAT7C1v6Y7C5H0b94E5w8=" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('#modules-list').sortable({
+                handle: '.handle',
+                update: function(e, ui) {
+                    let order = $(this).children().map(function() {
+                        return $(this).data('id');
+                    }).get();
+                    $.post('{{ route('modules.reorder', $course) }}', {
+                        _token: '{{ csrf_token() }}',
+                        order: order
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
 
