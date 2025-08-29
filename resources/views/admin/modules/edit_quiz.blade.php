@@ -252,7 +252,18 @@
         document.addEventListener('DOMContentLoaded', function () {
             for (let i = 1; i <= questionCounter; i++) {
                 handleTypeChange(i);
-                updateAnswerOptions(i);
+                // For existing questions, we need to preserve the answer selection
+                const answerSelect = document.getElementById(`mc_answer_${i}`);
+                if (answerSelect) {
+                    const currentAnswer = answerSelect.value;
+                    updateAnswerOptions(i);
+                    // Restore the answer if it was previously selected
+                    if (currentAnswer) {
+                        setTimeout(() => {
+                            answerSelect.value = currentAnswer;
+                        }, 0);
+                    }
+                }
             }
             updateRemoveButtons();
         });
@@ -423,17 +434,25 @@
             const container = document.getElementById(`options_container_${questionId}`);
             const select = document.getElementById(`mc_answer_${questionId}`);
             const options = container.querySelectorAll('input[type="text"]');
+            const currentValue = select.value; // Store current selected value
+
+            // Clear and rebuild options
             select.innerHTML = '<option value="">Select the correct answer</option>';
+
             options.forEach((opt, index) => {
                 const label = optionLabels[index];
                 const optionEl = document.createElement('option');
                 optionEl.value = label;
                 optionEl.textContent = label;
-                if (opt.value === '' && select.value === label) {
-                    select.value = '';
-                }
                 select.appendChild(optionEl);
             });
+
+            // Restore the selected value if it's still valid
+            if (currentValue && select.querySelector(`option[value="${currentValue}"]`)) {
+                select.value = currentValue;
+            }
+
+            // Update remove buttons for options
             container.querySelectorAll('.btn-danger').forEach((btn, index) => {
                 btn.disabled = index < 2;
             });

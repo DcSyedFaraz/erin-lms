@@ -36,7 +36,8 @@
                         <div class="row">
                             <div class="col-md-3 mb-3">
                                 <div class="info-item">
-                                    <div class="info-icon bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                                    <div class="info-icon bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                        style="width: 40px; height: 40px;">
                                         <i class="fas fa-folder"></i>
                                     </div>
                                     <h6 class="text-muted mb-1">Category</h6>
@@ -45,7 +46,8 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="info-item">
-                                    <div class="info-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                                    <div class="info-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                        style="width: 40px; height: 40px;">
                                         <i class="fas fa-signal"></i>
                                     </div>
                                     <h6 class="text-muted mb-1">Level</h6>
@@ -54,11 +56,13 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="info-item">
-                                    <div class="info-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                                    <div class="info-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                        style="width: 40px; height: 40px;">
                                         <i class="fas fa-check-circle"></i>
                                     </div>
                                     <h6 class="text-muted mb-1">Status</h6>
-                                    <span class="badge bg-{{ $course->status === 'active' ? 'success' : ($course->status === 'draft' ? 'warning' : 'secondary') }} fs-6">
+                                    <span
+                                        class="badge bg-{{ $course->status === 'active' ? 'success' : ($course->status === 'draft' ? 'warning' : 'secondary') }} fs-6">
                                         {{ ucfirst($course->status) }}
                                     </span>
                                 </div>
@@ -66,7 +70,8 @@
                             @if ($course->is_premium)
                                 <div class="col-md-3 mb-3">
                                     <div class="info-item">
-                                        <div class="info-icon bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                                        <div class="info-icon bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                            style="width: 40px; height: 40px;">
                                             <i class="fas fa-dollar-sign"></i>
                                         </div>
                                         <h6 class="text-muted mb-1">Price</h6>
@@ -76,7 +81,7 @@
                             @endif
                         </div>
 
-                        @if($course->description)
+                        @if ($course->description)
                             <hr class="my-4">
                             <div class="description-section">
                                 <h6 class="text-muted mb-3">
@@ -109,30 +114,36 @@
                         <ul id="modules-list" class="list-unstyled modules-list">
                             @forelse ($course->modules as $module)
                                 <li class="module-item mb-3" data-id="{{ $module->id }}">
-                                    <div class="card border-0 shadow-sm module-card">
+                                    <div class="card border-0 shadow-sm module-card" style="width: 99%;">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center">
                                                 <span class="handle me-3 text-muted cursor-move" title="Drag to reorder">
-                                                    <i class="fas fa-grip-vertical fs-5"></i>
+                                                    <i class="fas fa-grip-vertical fs-5 mr-2"></i>
                                                 </span>
                                                 <div class="module-info flex-grow-1">
-                                                    <h6 class="mb-1 fw-bold text-dark">{{ $module->title }}</h6>
-                                                    @if($module->description)
-                                                        <p class="text-muted small mb-0">{{ Str::limit($module->description, 80) }}</p>
+                                                    <h6 class="mb-1 fw-bold ">{{ $module->title }}</h6>
+                                                    @if ($module->description)
+                                                        <p class="text-muted small mb-0">
+                                                            {{ Str::limit($module->description, 80) }}</p>
                                                     @endif
                                                 </div>
                                                 <div class="module-actions">
                                                     <div class="btn-group" role="group">
-                                                        <a href="{{ route('modules.show', $module) }}" class="btn btn-outline-info btn-sm" title="View Module">
+                                                        <a href="{{ route('modules.show', $module) }}"
+                                                            class="btn btn-outline-info btn-sm" title="View Module">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a href="{{ route('modules.edit', $module) }}" class="btn btn-outline-warning btn-sm" title="Edit Module">
+                                                        <a href="{{ route('modules.edit', $module) }}"
+                                                            class="btn btn-outline-warning btn-sm" title="Edit Module">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
-                                                        <form action="{{ route('modules.destroy', $module) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('modules.destroy', $module) }}"
+                                                            method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete Module" onclick="return confirm('Are you sure you want to delete this module?')">
+                                                            <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                                title="Delete Module"
+                                                                onclick="return confirm('Are you sure you want to delete this module?')">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
