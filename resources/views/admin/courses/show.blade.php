@@ -87,7 +87,7 @@
                                 <h6 class="text-muted mb-3">
                                     <i class="fas fa-align-left me-2"></i>Description
                                 </h6>
-                                <p class="lead text-dark">{{ $course->description }}</p>
+                                <p class="lead ">{{ $course->description }}</p>
                             </div>
                         @endif
                     </div>
@@ -103,7 +103,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">
                                 <i class="fas fa-puzzle-piece me-2"></i>Course Modules
-                                <span class="badge bg-light text-dark ms-2">{{ count($course->modules) }}</span>
+                                <span class="badge bg-lighttext-dark ms-2">{{ count($course->modules) }}</span>
                             </h5>
                             <a href="{{ route('modules.create', $course) }}" class="btn btn-light btn-sm">
                                 <i class="fas fa-plus me-2"></i>Add Module

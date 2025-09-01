@@ -104,7 +104,7 @@ class CourseController extends Controller
      */
     public function approve(Course $course)
     {
-        $course->update(['status' => 'approved']);
+        $course->update(['status' => 'published']);
         return back()->with('success', 'Course approved.');
     }
 

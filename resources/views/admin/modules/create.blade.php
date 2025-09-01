@@ -94,18 +94,15 @@
                     <div class="card-body p-4">
                         <div id="texts" class="text-contents-container">
                             <div class="text-content-item mb-3">
-                                <div class="input-group">
+                                <div class="input-group mb-2">
                                     <span class="input-group-text bg-info text-white">
                                         <i class="fas fa-align-left"></i>
                                     </span>
-                                    <input type="text"
-                                           class="form-control"
-                                           name="text_contents[]"
-                                           placeholder="Enter text content (optional)">
                                     <button type="button" class="btn btn-outline-danger" onclick="removeTextContent(this)">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
+                                <textarea class="form-control summernote" name="text_contents[]" placeholder="Enter text content (optional)"></textarea>
                             </div>
                         </div>
 
@@ -259,6 +256,21 @@
 
 @section('scripts')
 <script>
+// Initialize Summernote editors on load
+$(function() {
+    $('.summernote').summernote({
+        placeholder: 'Enter text content (optional)',
+        tabsize: 2,
+        height: 220,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture']],
+            ['view', ['fullscreen', 'codeview']]
+        ]
+    });
+});
+
 function addText() {
     const container = document.getElementById('texts');
 
@@ -266,25 +278,32 @@ function addText() {
     const textContentItem = document.createElement('div');
     textContentItem.className = 'text-content-item mb-3';
     textContentItem.innerHTML = `
-        <div class="input-group">
+        <div class="input-group mb-2">
             <span class="input-group-text bg-info text-white">
                 <i class="fas fa-align-left"></i>
             </span>
-            <input type="text"
-                   class="form-control"
-                   name="text_contents[]"
-                   placeholder="Enter text content">
             <button type="button" class="btn btn-outline-danger" onclick="removeTextContent(this)">
                 <i class="fas fa-times"></i>
             </button>
         </div>
+        <textarea class="form-control summernote" name="text_contents[]" placeholder="Enter text content"></textarea>
     `;
 
     container.appendChild(textContentItem);
 
-    // Focus on the new input
-    const newInput = textContentItem.querySelector('input');
-    newInput.focus();
+    // Initialize Summernote for the new textarea
+    const newTextarea = textContentItem.querySelector('textarea.summernote');
+    $(newTextarea).summernote({
+        placeholder: 'Enter text content',
+        tabsize: 2,
+        height: 220,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture']],
+            ['view', ['fullscreen', 'codeview']]
+        ]
+    });
 
     // Add fade in animation
     textContentItem.style.opacity = '0';
@@ -303,10 +322,13 @@ function removeTextContent(button) {
     // Don't remove if it's the last one
     const remainingItems = container.querySelectorAll('.text-content-item');
     if (remainingItems.length <= 1) {
-        // Clear the input instead
-        const input = textContentItem.querySelector('input');
-        input.value = '';
-        input.focus();
+        // Clear the editor instead of removing last block
+        const textarea = textContentItem.querySelector('textarea.summernote');
+        if (textarea && $(textarea).next('.note-editor').length) {
+            $(textarea).summernote('reset');
+        } else if (textarea) {
+            textarea.value = '';
+        }
         return;
     }
 
@@ -316,7 +338,20 @@ function removeTextContent(button) {
     textContentItem.style.transform = 'translateY(-10px)';
 
     setTimeout(() => {
-        textContentItem.remove();
+        // If this is the last one, clear its editor instead of removing
+        const remainingItemsAfter = container.querySelectorAll('.text-content-item');
+        if (remainingItemsAfter.length <= 1) {
+            const textarea = textContentItem.querySelector('textarea.summernote');
+            if (textarea && $(textarea).next('.note-editor').length) {
+                $(textarea).summernote('reset');
+            } else if (textarea) {
+                textarea.value = '';
+            }
+            textContentItem.style.opacity = '1';
+            textContentItem.style.transform = 'none';
+        } else {
+            textContentItem.remove();
+        }
     }, 300);
 }
 
@@ -380,4 +415,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 @endsection
 @endsection
-

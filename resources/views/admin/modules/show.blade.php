@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="content-body flex-grow-1">
                                         <h6 class="text-muted mb-2">Text Content</h6>
-                                        <p class="mb-0 text-dark">{{ $content->text }}</p>
+                                        <div class="mb-0 text-dark">{!! $content->text !!}</div>
                                     </div>
                                 </div>
                             @else

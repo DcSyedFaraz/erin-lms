@@ -38,7 +38,7 @@
                                     <a href="{{ route('courses.show', $course->id) }}"
                                         class="btn btn-info btn-sm">View</a>
 
-                                    @if ($course->status != 'approved')
+                                    @if ($course->status != 'published')
                                         <form action="{{ route('courses.approve', $course) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
@@ -46,7 +46,7 @@
                                         </form>
                                     @endif
 
-                                    @if ($course->status != 'archived')
+                                    @if ($course->status != 'draft')
                                         <form action="{{ route('courses.archive', $course) }}" method="POST"
                                             style="display:inline;">
                                             @csrf

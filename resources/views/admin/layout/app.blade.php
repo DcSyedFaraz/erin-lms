@@ -27,7 +27,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{-- DataTable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    {{-- Custom Course & Module Styles --}}
+    {{-- Summernote (Lite) --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.9.1/summernote-bs5.min.css"
+        integrity="sha512-rDHV59PgRefDUbMm2lSjvf0ZhXZy3wgROFyao0JxZPGho3oOuWejq/ELx0FOZJpgaE5QovVtRN65Y3rrb7JhdQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> {{-- Custom Course & Module Styles --}}
     <link rel="stylesheet" href="{{ asset('assets/css/admin-course-module.css') }}">
 </head>
 
@@ -105,6 +108,10 @@
     <script src="{{ asset('backend/dist/js/pages/dashboard2.js') }}"></script>
 
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    {{-- Summernote (Lite) --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.9.1/summernote-bs5.min.js"
+        integrity="sha512-qTQLA91yGDLA06GBOdbT7nsrQY8tN6pJqjT16iTuk08RWbfYmUz/pQD3Gly1syoINyCFNsJh7A91LtrLIwODnw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         @if (session('success'))
             console.log('{{ session('success') }}');

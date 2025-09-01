@@ -96,32 +96,27 @@
                             <div id="texts" class="text-contents-container">
                                 @forelse($module->contents->where('type', 'text') as $content)
                                     <div class="text-content-item mb-3">
-                                        <div class="input-group">
+                                        <div class="input-group mb-2">
                                             <span class="input-group-text bg-info text-white">
                                                 <i class="fas fa-align-left"></i>
                                             </span>
-                                            <input type="text" class="form-control" name="text_contents[]"
-                                                value="{{ old('text_contents.' . $loop->index, $content->text) }}"
-                                                placeholder="Enter text content">
-                                            <button type="button" class="btn btn-outline-danger"
-                                                onclick="removeTextContent(this)">
+                                            <button type="button" class="btn btn-outline-danger" onclick="removeTextContent(this)">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
+                                        <textarea class="form-control summernote" name="text_contents[]" placeholder="Enter text content">{!! old('text_contents.' . $loop->index, $content->text) !!}</textarea>
                                     </div>
                                 @empty
                                     <div class="text-content-item mb-3">
-                                        <div class="input-group">
+                                        <div class="input-group mb-2">
                                             <span class="input-group-text bg-info text-white">
                                                 <i class="fas fa-align-left"></i>
                                             </span>
-                                            <input type="text" class="form-control" name="text_contents[]"
-                                                placeholder="Enter text content">
-                                            <button type="button" class="btn btn-outline-danger"
-                                                onclick="removeTextContent(this)">
+                                            <button type="button" class="btn btn-outline-danger" onclick="removeTextContent(this)">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
+                                        <textarea class="form-control summernote" name="text_contents[]" placeholder="Enter text content"></textarea>
                                     </div>
                                 @endforelse
                             </div>
@@ -290,6 +285,21 @@
 @endsection
 @section('scripts')
     <script>
+        // Initialize Summernote editors on load
+        $(function() {
+            $('.summernote').summernote({
+                placeholder: 'Enter text content',
+                tabsize: 2,
+                height: 220,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
+        });
+
         function addText() {
             const container = document.getElementById('texts');
             const emptyState = container.querySelector('.empty-text-state');
@@ -303,25 +313,32 @@
             const textContentItem = document.createElement('div');
             textContentItem.className = 'text-content-item mb-3';
             textContentItem.innerHTML = `
-        <div class="input-group">
+        <div class="input-group mb-2">
             <span class="input-group-text bg-info text-white">
                 <i class="fas fa-align-left"></i>
             </span>
-            <input type="text"
-                   class="form-control"
-                   name="text_contents[]"
-                   placeholder="Enter text content">
             <button type="button" class="btn btn-outline-danger" onclick="removeTextContent(this)">
                 <i class="fas fa-times"></i>
             </button>
         </div>
+        <textarea class="form-control summernote" name="text_contents[]" placeholder="Enter text content"></textarea>
     `;
 
             container.appendChild(textContentItem);
 
-            // Focus on the new input
-            const newInput = textContentItem.querySelector('input');
-            newInput.focus();
+            // Initialize Summernote for the new textarea
+            const newTextarea = textContentItem.querySelector('textarea.summernote');
+            $(newTextarea).summernote({
+                placeholder: 'Enter text content',
+                tabsize: 2,
+                height: 220,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
 
             // Add fade in animation
             textContentItem.style.opacity = '0';

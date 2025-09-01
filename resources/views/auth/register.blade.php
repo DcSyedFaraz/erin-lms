@@ -1,5 +1,10 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <div class="mb-6 text-center">
+        <h1 class="text-2xl font-semibold text-gray-900">{{ __('Create your account') }}</h1>
+        <p class="mt-1 text-sm text-gray-600">{{ __('Start your learning journey today') }}</p>
+    </div>
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
 
         <!-- Name -->
@@ -29,11 +34,27 @@
         </div>
 
 
-        <div class="mt-4">
-            <a href="{{ route('social.redirect', 'google') }}" class="btn btn-danger w-100 mb-2">Login with Google</a>
-            <a href="{{ route('social.redirect', 'facebook') }}" class="btn btn-primary w-100 mb-2">Login with
-                Facebook</a>
-            <a href="{{ route('social.redirect', 'linkedin') }}" class="btn btn-info w-100">Login with LinkedIn</a>
+        <div class="pt-2">
+            <div class="relative">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-200"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="bg-white px-3 text-gray-500">{{ __('Or continue with') }}</span>
+                </div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 gap-3">
+                <a href="{{ route('social.redirect', 'google') }}" class="inline-flex w-full justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    <span>Google</span>
+                </a>
+                <a href="{{ route('social.redirect', 'facebook') }}" class="inline-flex w-full justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    <span>Facebook</span>
+                </a>
+                <a href="{{ route('social.redirect', 'linkedin') }}" class="inline-flex w-full justify-center items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    <span>LinkedIn</span>
+                </a>
+            </div>
         </div>
 
         <!-- Confirm Password -->
@@ -46,15 +67,13 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <x-primary-button class="w-full mt-2">
+            {{ __('Register') }}
+        </x-primary-button>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
+        <p class="mt-6 text-center text-sm text-gray-600">
+            {{ __('Already registered?') }}
+            <a href="{{ route('login') }}" class="font-medium text-indigo-600 hover:text-indigo-700">{{ __('Sign in') }}</a>
+        </p>
     </form>
 </x-guest-layout>
