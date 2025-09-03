@@ -131,6 +131,7 @@
         @endif
     </script>
     @yield('scripts')
+    <script src="{{ asset('backend/dist/js/theme-switcher.js') }}"></script>
 </body>
 
 </html>

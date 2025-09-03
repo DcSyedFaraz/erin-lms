@@ -40,50 +40,58 @@
                  <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                  <li class="nav-item">
-                     <a href="{{ route('admin.dashboard') }}"
+                 <a href="{{ route('admin.dashboard') }}"
                          class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                         <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                          <p>Dashboard</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="{{ route('users.index') }}"
+                 <a href="{{ route('users.index') }}"
                          class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-                         <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-users"></i>
                          <p>Users</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="{{ route('roles.index') }}"
+                 <a href="{{ route('roles.index') }}"
                          class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
-                         <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-user-shield"></i>
                          <p>Roles</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="{{ route('courses.index') }}"
+                 <a href="{{ route('courses.index') }}"
                          class="nav-link {{ request()->routeIs(['courses.*', 'modules.*']) ? 'active' : '' }}">
-                         <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-book-open"></i>
                          <p>Courses</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="{{ route('plans.index') }}"
+                     <a href="{{ route('categories.index') }}"
+                         class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                         <i class="nav-icon fas fa-tags"></i>
+                         <p>Categories</p>
+                     </a>
+                 </li>
+
+                 <li class="nav-item">
+                 <a href="{{ route('plans.index') }}"
                          class="nav-link {{ request()->routeIs('plans.*') ? 'active' : '' }}">
-                         <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-clipboard-list"></i>
                          <p>Plans</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="{{ route('logout') }}"
+                 <a href="{{ route('logout') }}"
                          class="nav-link {{ request()->routeIs('logout.*') ? 'active' : '' }}"
                          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                         <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
                          <p>Logout</p>
                      </a>
 
