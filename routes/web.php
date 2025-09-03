@@ -13,6 +13,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialLoginController;
 use App\Models\SubscriptionPlan;
+use App\Http\Controllers\ParentDashboardController;
+use App\Http\Controllers\ParentCourseController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -70,11 +72,20 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
 
 
 
-// Learner Routes
-Route::prefix('learner')->middleware(['auth', 'role:Learner'])->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Welcome Learner';
-    });
+// Parent Routes (renamed from Learner)
+Route::prefix('parent')->middleware(['auth', 'role:Parent'])->group(function () {
+    Route::get('/dashboard', [ParentDashboardController::class, 'index'])->name('parent.dashboard');
+
+    // Parent Course Purchase & Library
+    Route::get('/courses', [ParentCourseController::class, 'index'])->name('parent.courses.index');
+    Route::get('/courses/summary', [ParentCourseController::class, 'summary'])->name('parent.courses.summary');
+    Route::get('/courses/my', [ParentCourseController::class, 'my'])->name('parent.courses.my');
+    Route::get('/courses/{course}', [ParentCourseController::class, 'show'])->name('parent.courses.show');
+    Route::post('/courses/{course}/checkout', [ParentCourseController::class, 'checkout'])->name('parent.courses.checkout');
+    Route::post('/courses/{course}/intent', [ParentCourseController::class, 'intent'])->name('parent.courses.intent');
+    Route::post('/courses/{course}/complete', [ParentCourseController::class, 'complete'])->name('parent.courses.complete');
+    Route::get('/courses/{course}/success', [ParentCourseController::class, 'success'])->name('parent.courses.success');
+    Route::get('/courses/{course}/cancel', [ParentCourseController::class, 'cancel'])->name('parent.courses.cancel');
 });
 
 Route::get('login/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');

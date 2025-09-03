@@ -18,22 +18,26 @@ const toggleTheme = () => {
 };
 
 // Event listener for the theme switcher button
-themeSwitcher.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleTheme();
-});
+if (themeSwitcher) {
+    themeSwitcher.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleTheme();
+    });
+}
 
 // Check for the user's preferred theme from local storage
 const preferredTheme = localStorage.getItem('theme');
 
 if (preferredTheme === 'light') {
+    body.classList.remove('dark-mode');
     body.classList.add('light-mode');
     navbar.classList.add('navbar-light');
     navbar.classList.remove('navbar-dark');
-    themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
+    if (themeSwitcher) themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
 } else {
+    body.classList.remove('light-mode');
     body.classList.add('dark-mode');
     navbar.classList.add('navbar-dark');
     navbar.classList.remove('navbar-light');
-    themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+    if (themeSwitcher) themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
 }

@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard 2</title>
+    <title>{{ auth()->check() && auth()->user()->hasRole('Admin') ? 'Admin' : 'Parent' }} | Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -44,7 +45,11 @@
 
         @include('admin.layout.navbar')
 
-        @include('admin.layout.sidebar')
+        @if(auth()->check() && auth()->user()->hasRole('Admin'))
+            @include('admin.layout.sidebar')
+        @else
+            @include('parent.layout.sidebar')
+        @endif
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

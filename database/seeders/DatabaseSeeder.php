@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Define roles
-        $roles = ['Admin', 'Learner'];
+        $roles = ['Admin', 'Parent'];
         foreach ($roles as $roleName) {
             Role::firstOrCreate(['name' => $roleName]);
         }

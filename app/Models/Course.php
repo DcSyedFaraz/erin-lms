@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -29,5 +31,20 @@ class Course extends Model
     public function modules()
     {
         return $this->hasMany(Module::class)->orderBy('order');
+    }
+
+    public function contents(): HasManyThrough
+    {
+        return $this->hasManyThrough(ModuleContent::class, Module::class);
+    }
+
+    public function quizzes(): HasManyThrough
+    {
+        return $this->hasManyThrough(Quiz::class, Module::class);
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(CoursePurchase::class);
     }
 }

@@ -30,7 +30,7 @@ class SocialLoginController extends Controller
 
         // Assign default role if not assigned
         if (!$user->roles->count()) {
-            $user->assignRole('Learner');
+            $user->assignRole('Parent');
         }
 
         Auth::login($user, true);

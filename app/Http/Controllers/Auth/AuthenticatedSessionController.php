@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         if ($user->hasRole('Admin')) {
             return redirect('/admin/dashboard');
         } else {
-            return redirect('/learner/dashboard');
+            return redirect('/parent/dashboard');
         }
     }
 

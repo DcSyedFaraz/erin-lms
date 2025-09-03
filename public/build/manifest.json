@@ -1,14 +1,22 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-D8kGgN4J.css",
+    "file": "assets/app-Bp5g5QVM.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "names": [
       "app.css"
     ]
   },
+  "resources/css/dark.css": {
+    "file": "assets/dark-D9gkRzen.css",
+    "src": "resources/css/dark.css",
+    "isEntry": true,
+    "names": [
+      "dark.css"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-DtCVKgHt.js",
+    "file": "assets/app-DLTZrFSt.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

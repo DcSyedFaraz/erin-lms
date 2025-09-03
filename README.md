@@ -7,7 +7,7 @@ Laravel-based Learning Management System for managing courses, modules, and quiz
 - Courses: create, preview, publish/archive with categories and levels
 - Modules: ordered lessons with text, PDF, images, and video uploads
 - Quizzes: multiple-choice and true/false, per-question points
-- Roles & permissions: Admin and Learner via Spatie Permission
+- Roles & permissions: Admin and Parent via Spatie Permission
 - Users: CRUD, role assignment, profile management
 - Subscriptions: Stripe Products/Prices, plan management (Laravel Cashier)
 - Social login: OAuth via Google, Facebook, LinkedIn (Socialite)
@@ -47,7 +47,7 @@ Laravel-based Learning Management System for managing courses, modules, and quiz
 
 Seeding creates:
 
-- Roles: Admin, Learner
+- Roles: Admin, Parent
 - Default Admin user: `admin@gmail.com` / `12345678`
 - Sample categories and levels
 
@@ -87,7 +87,7 @@ Example redirect URIs when developing locally:
 - http://localhost:8000/login/facebook/callback
 - http://localhost:8000/login/linkedin/callback
 
-New social users are auto-verified and assigned the Learner role.
+New social users are auto-verified and assigned the Parent role.
 
 ## Subscriptions
 
