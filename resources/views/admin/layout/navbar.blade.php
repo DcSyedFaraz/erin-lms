@@ -15,6 +15,13 @@
 
      <!-- Right navbar links -->
      <ul class="navbar-nav ml-auto">
+        @if(auth()->check() && auth()->user()->hasRole('Parent'))
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#childrenProfilesModal" title="Profiles">
+                <i class="fas fa-users"></i>
+            </a>
+        </li>
+        @endif
          <!-- Navbar Search -->
          <li class="nav-item">
              <a class="nav-link" data-widget="navbar-search" href="#" role="button">

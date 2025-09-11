@@ -15,6 +15,8 @@ use App\Http\Controllers\SocialLoginController;
 use App\Models\SubscriptionPlan;
 use App\Http\Controllers\ParentDashboardController;
 use App\Http\Controllers\ParentCourseController;
+use App\Http\Controllers\ParentChildController;
+use App\Http\Controllers\ChildDashboardController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -86,6 +88,16 @@ Route::prefix('parent')->middleware(['auth', 'role:Parent'])->group(function () 
     Route::post('/courses/{course}/complete', [ParentCourseController::class, 'complete'])->name('parent.courses.complete');
     Route::get('/courses/{course}/success', [ParentCourseController::class, 'success'])->name('parent.courses.success');
     Route::get('/courses/{course}/cancel', [ParentCourseController::class, 'cancel'])->name('parent.courses.cancel');
+
+    // Parent Child Profiles
+    Route::get('/children', [ParentChildController::class, 'index'])->name('parent.children.index');
+    Route::post('/children', [ParentChildController::class, 'store'])->name('parent.children.store');
+    Route::get('/children/exit', [ParentChildController::class, 'exit'])->name('parent.children.exit');
+
+    // Child View (Dashboard + Course)
+    Route::get('/children/{child}', [ChildDashboardController::class, 'dashboard'])->name('parent.children.dashboard');
+    Route::get('/children/{child}/courses/{course}', [ChildDashboardController::class, 'course'])->name('parent.children.course');
+    Route::get('/children/{child}/courses/{course}/modules/{module}', [ChildDashboardController::class, 'module'])->name('parent.children.course.module');
 });
 
 Route::get('login/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');

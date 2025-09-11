@@ -137,6 +137,9 @@
     </script>
     @yield('scripts')
     <script src="{{ asset('backend/dist/js/theme-switcher.js') }}"></script>
+    @if(auth()->check() && auth()->user()->hasRole('Parent'))
+        @include('parent.children.modal')
+    @endif
 </body>
 
 </html>

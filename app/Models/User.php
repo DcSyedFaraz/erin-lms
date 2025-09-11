@@ -48,5 +48,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function childProfiles()
+    {
+        return $this->hasMany(ChildProfile::class, 'user_id');
+    }
+
 
 }
