@@ -47,6 +47,13 @@
                                                 {{ strtoupper(mb_substr($child->name, 0, 1)) }}
                                             </div>
                                             <h5 class="card-title font-weight-bold mb-2">{{ $child->name }}</h5>
+                                            <div class="edit-inline d-none">
+                                                <input type="text" class="form-control form-control-sm edit-name-input" value="{{ $child->name }}" maxlength="50" />
+                                                <div class="mt-2">
+                                                    <button class="btn btn-success btn-sm save-edit-card" type="button" data-id="{{ $child->id }}">Save</button>
+                                                    <button class="btn btn-secondary btn-sm cancel-edit-card" type="button">Cancel</button>
+                                                </div>
+                                            </div>
                                             <p class="text-muted small mb-3">Learning Profile</p>
                                             <div class="d-flex justify-content-center gap-2">
                                                 <a href="{{ route('parent.children.dashboard', $child) }}"
@@ -59,7 +66,7 @@
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button class="btn btn-outline-danger btn-sm"
-                                                        onclick="deleteChild({{ $child->id }}, '{{ $child->name }}', this)"
+                                                        onclick="confirmDeleteChild({{ $child->id }}, '{{ $child->name }}', this)"
                                                         title="Delete Profile">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -134,6 +141,9 @@
 .gap-2 > * + * {
     margin-left: 0.5rem;
 }
+.edit-inline { margin-top: 6px; }
+.edit-inline .form-control { height: calc(1.5em + .5rem + 2px); padding: .25rem .5rem; }
+.edit-inline .btn { padding: .15rem .5rem; font-size: .85rem; }
 </style>
 
 <script>
@@ -206,6 +216,144 @@ function deleteChild(id, name, btn) {
         if (window.toastr) toastr.error(msg);
     });
 }
+
+// Override editChild to use inline edit UI
+function editChild(id, currentName, btn) {
+    const card = btn ? btn.closest('.card') : null;
+    if (!card) return;
+    const title = card.querySelector('.card-title');
+    const editWrap = card.querySelector('.edit-inline');
+    if (!title || !editWrap) return;
+    title.classList.add('d-none');
+    editWrap.classList.remove('d-none');
+    const input = editWrap.querySelector('.edit-name-input');
+    if (input) { input.value = currentName || title.textContent.trim(); input.focus(); input.select(); }
+    editWrap.querySelectorAll('button').forEach(b => b.setAttribute('data-id', id));
+}
+
+// New confirmation-based delete
+function confirmDeleteChild(id, name, btn) {
+    const $modal = $('#confirmChildDeleteModal');
+    $modal.find('.child-name').text(name || '');
+    const confirmBtn = document.getElementById('confirmChildDeleteYes');
+    const handler = function() {
+        confirmBtn.disabled = true;
+        const original = confirmBtn.innerHTML;
+        confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting';
+        fetch(`{{ route('parent.children.destroy', ['child' => '__ID__']) }}`.replace('__ID__', id), {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+                'Accept': 'application/json'
+            }
+        })
+        .then(async (res) => {
+            const data = await res.json();
+            if (!res.ok) throw data;
+            return data;
+        })
+        .then(() => {
+            const col = btn.closest('.col-sm-6, .col-md-4, .col-lg-3');
+            if (col) col.remove();
+            if (window.toastr) toastr.success('Profile deleted.');
+        })
+        .catch((err) => {
+            let msg = 'Could not delete profile.';
+            if (err && err.message) msg = err.message;
+            if (window.toastr) toastr.error(msg);
+        })
+        .finally(() => {
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = original;
+            $modal.modal('hide');
+            confirmBtn.removeEventListener('click', handler);
+        });
+    };
+    const onHide = function() {
+        confirmBtn.removeEventListener('click', handler);
+        $('#confirmChildDeleteModal').off('hidden.bs.modal', onHide);
+    };
+    $('#confirmChildDeleteModal').on('hidden.bs.modal', onHide);
+    confirmBtn.addEventListener('click', handler);
+    $modal.modal('show');
+}
+
+// Inline edit on cards: save/cancel and keyboard
+document.addEventListener('click', function(e) {
+    const saveBtn = e.target.closest('.save-edit-card');
+    const cancelBtn = e.target.closest('.cancel-edit-card');
+    if (!saveBtn && !cancelBtn) return;
+    const card = e.target.closest('.card');
+    if (!card) return;
+    const editWrap = card.querySelector('.edit-inline');
+    const title = card.querySelector('.card-title');
+    if (cancelBtn) {
+        if (editWrap) editWrap.classList.add('d-none');
+        if (title) title.classList.remove('d-none');
+        return;
+    }
+    if (saveBtn) {
+        const id = saveBtn.getAttribute('data-id');
+        const input = editWrap?.querySelector('.edit-name-input');
+        const newName = input?.value?.trim();
+        if (!id || !newName) return;
+        const trimmed = newName.slice(0, 50);
+        const old = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        fetch(`{{ route('parent.children.update', ['child' => '__ID__']) }}`.replace('__ID__', id), {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ name: trimmed })
+        })
+        .then(async (res) => {
+            const data = await res.json();
+            if (!res.ok) throw data;
+            return data;
+        })
+        .then(({ data }) => {
+            if (title) title.textContent = data.name;
+            const avatarEl = card.querySelector('.profile-avatar');
+            if (avatarEl) avatarEl.textContent = (data.name || '?').charAt(0).toUpperCase();
+            if (editWrap) editWrap.classList.add('d-none');
+            if (title) title.classList.remove('d-none');
+            if (window.toastr) toastr.success('Profile name updated.');
+        })
+        .catch((err) => {
+            let msg = 'Could not update profile.';
+            if (err && err.message) msg = err.message;
+            if (err && err.errors) {
+                const firstKey = Object.keys(err.errors)[0];
+                if (firstKey && err.errors[firstKey][0]) msg = err.errors[firstKey][0];
+            }
+            if (window.toastr) toastr.error(msg);
+        })
+        .finally(() => {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = old;
+        });
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    const input = e.target.closest('.edit-name-input');
+    if (!input) return;
+    const card = input.closest('.card');
+    if (!card) return;
+    if (e.key === 'Enter') {
+        const btn = card.querySelector('.save-edit-card');
+        if (btn) btn.click();
+    }
+    if (e.key === 'Escape') {
+        const btn = card.querySelector('.cancel-edit-card');
+        if (btn) btn.click();
+    }
+});
+
 </script>
 
 @endsection

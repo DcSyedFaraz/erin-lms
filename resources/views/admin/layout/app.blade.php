@@ -139,6 +139,26 @@
     <script src="{{ asset('backend/dist/js/theme-switcher.js') }}"></script>
     @if(auth()->check() && auth()->user()->hasRole('Parent'))
         @include('parent.children.modal')
+        <!-- Confirm Delete Child Profile Modal -->
+        <div class="modal fade" id="confirmChildDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmChildDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="confirmChildDeleteLabel"><i class="fas fa-trash mr-1"></i>Delete Profile</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete the profile <strong class="child-name"></strong>? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmChildDeleteYes">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 </body>
 

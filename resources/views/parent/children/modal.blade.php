@@ -1,7 +1,9 @@
-<div class="modal fade" id="childrenProfilesModal" tabindex="-1" role="dialog" aria-labelledby="childrenProfilesModalLabel" aria-hidden="true">
+<div class="modal fade" id="childrenProfilesModal" tabindex="-1" role="dialog" aria-labelledby="childrenProfilesModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="modal-header bg-gradient-primary text-white"
+                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                 <h5 class="modal-title" id="childrenProfilesModalLabel">
                     <i class="fas fa-users mr-2"></i>Who's Learning Today?
                 </h5>
@@ -66,7 +68,10 @@
                         gap: 6px;
                         z-index: 2;
                     }
-                    .tile-actions .btn { padding: 2px 6px; }
+
+                    .tile-actions .btn {
+                        padding: 2px 6px;
+                    }
 
                     .profile-tile.active .profile-avatar {
                         outline: 3px solid #28a745;
@@ -75,9 +80,17 @@
                     }
 
                     @keyframes pulse {
-                        0% { box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3), 0 0 0 0 rgba(40, 167, 69, 0.7); }
-                        70% { box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3), 0 0 0 10px rgba(40, 167, 69, 0); }
-                        100% { box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3), 0 0 0 0 rgba(40, 167, 69, 0); }
+                        0% {
+                            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3), 0 0 0 0 rgba(40, 167, 69, 0.7);
+                        }
+
+                        70% {
+                            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3), 0 0 0 10px rgba(40, 167, 69, 0);
+                        }
+
+                        100% {
+                            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3), 0 0 0 0 rgba(40, 167, 69, 0);
+                        }
                     }
 
                     .add-tile .profile-avatar {
@@ -99,8 +112,29 @@
                     }
 
                     @keyframes slideDown {
-                        from { opacity: 0; transform: translateY(-20px); }
-                        to { opacity: 1; transform: translateY(0); }
+                        from {
+                            opacity: 0;
+                            transform: translateY(-20px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .edit-inline {
+                        margin-top: 6px;
+                    }
+
+                    .edit-inline .form-control {
+                        height: calc(1.5em + .5rem + 2px);
+                        padding: .25rem .5rem;
+                    }
+
+                    .edit-inline .btn {
+                        padding: .15rem .5rem;
+                        font-size: .85rem;
                     }
 
                     /* Dark mode styles */
@@ -139,11 +173,11 @@
                             data-id="{{ $child->id }}" data-url="{{ route('parent.children.dashboard', $child) }}">
                             <div class="tile-actions">
                                 <button type="button" class="btn btn-light btn-sm edit-child" title="Edit name"
-                                        data-id="{{ $child->id }}" data-name="{{ $child->name }}">
+                                    data-id="{{ $child->id }}" data-name="{{ $child->name }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm delete-child" title="Delete profile"
-                                        data-id="{{ $child->id }}">
+                                    data-id="{{ $child->id }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -151,13 +185,20 @@
                                 {{ strtoupper(mb_substr($child->name, 0, 1)) }}
                             </div>
                             <div class="profile-name">{{ $child->name }}</div>
-                            @if($activeId === $child->id)
+                            @if ($activeId === $child->id)
                                 <small class="text-success font-weight-bold">
                                     <i class="fas fa-check-circle mr-1"></i>Currently Active
                                 </small>
                             @else
                                 <small class="text-muted">Click to enter</small>
                             @endif
+                            <div class="edit-inline d-none">
+                                <input type="text" class="form-control form-control-sm edit-name-input" value="{{ $child->name }}" maxlength="50" />
+                                <div class="mt-1">
+                                    <button class="btn btn-success btn-sm save-edit" type="button">Save</button>
+                                    <button class="btn btn-secondary btn-sm cancel-edit" type="button">Cancel</button>
+                                </div>
+                            </div>
                         </div>
                     @endforeach
 
@@ -186,7 +227,8 @@
                                         <label for="childNameInput" class="form-label">Child's Name</label>
                                         <input type="text" id="childNameInput" class="form-control form-control-lg"
                                             placeholder="Enter your child's name" maxlength="50" required>
-                                        <small class="form-text text-muted">This will be displayed on their learning profile</small>
+                                        <small class="form-text text-muted">This will be displayed on their learning
+                                            profile</small>
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-end">
@@ -240,8 +282,9 @@
         tiles.forEach((tile) => {
             if (tile.id === 'addProfileTile') return;
             tile.addEventListener('click', function(e) {
-                // Ignore clicks on action buttons
-                if (e.target.closest('.tile-actions')) return;
+                // Ignore clicks on action buttons or while editing
+                if (e.target.closest('.tile-actions') || e.target.closest('.edit-inline') || this
+                    .classList.contains('editing')) return;
                 const url = this.getAttribute('data-url');
                 if (url) {
                     // Add loading state
@@ -264,96 +307,183 @@
         grid.addEventListener('click', function(e) {
             const editBtn = e.target.closest('.edit-child');
             const delBtn = e.target.closest('.delete-child');
-            if (!editBtn && !delBtn) return;
+            const saveBtn = e.target.closest('.save-edit');
+            const cancelBtn = e.target.closest('.cancel-edit');
+            if (!editBtn && !delBtn && !saveBtn && !cancelBtn) return;
             e.stopPropagation();
             e.preventDefault();
 
             const tile = e.target.closest('.profile-tile');
-            const childId = (editBtn || delBtn).getAttribute('data-id');
+            const childId = (editBtn || delBtn || saveBtn || cancelBtn)?.getAttribute('data-id') || tile
+                .getAttribute('data-id');
 
             if (editBtn) {
-                const currentName = editBtn.getAttribute('data-name') || tile.querySelector('.profile-name')?.textContent?.trim() || '';
-                const newName = window.prompt('Enter new name for this profile:', currentName);
-                if (!newName || newName.trim().length === 0) return;
-                const trimmed = newName.trim().slice(0, 50);
-
-                fetch(`{{ route('parent.children.update', ['child' => '__ID__']) }}`.replace('__ID__', childId), {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ name: trimmed })
-                })
-                .then(async (res) => {
-                    const data = await res.json();
-                    if (!res.ok) throw data;
-                    return data;
-                })
-                .then(({ data }) => {
-                    // Update UI
-                    const nameEl = tile.querySelector('.profile-name');
-                    const avatarEl = tile.querySelector('.profile-avatar');
-                    if (nameEl) nameEl.textContent = data.name;
-                    if (avatarEl) avatarEl.textContent = (data.name || '?').charAt(0).toUpperCase();
-                    // Update button dataset
-                    editBtn.setAttribute('data-name', data.name);
-                    if (window.toastr) toastr.success('Profile name updated.');
-                })
-                .catch((err) => {
-                    let msg = 'Could not update profile.';
-                    if (err && err.message) msg = err.message;
-                    if (err && err.errors) {
-                        const firstKey = Object.keys(err.errors)[0];
-                        if (firstKey && err.errors[firstKey][0]) msg = err.errors[firstKey][0];
+                const editWrap = tile.querySelector('.edit-inline');
+                const nameEl = tile.querySelector('.profile-name');
+                if (editWrap && nameEl) {
+                    nameEl.classList.add('d-none');
+                    const hint = tile.querySelector('small');
+                    if (hint) hint.classList.add('d-none');
+                    editWrap.classList.remove('d-none');
+                    tile.classList.add('editing');
+                    const input = editWrap.querySelector('.edit-name-input');
+                    if (input) {
+                        input.value = editBtn.getAttribute('data-name') || nameEl.textContent.trim();
+                        input.focus();
+                        input.select();
                     }
-                    if (window.toastr) toastr.error(msg);
-                });
+                    tile._editBtn = editBtn;
+                    // store id for save/cancel buttons
+                    editWrap.querySelectorAll('button').forEach(b => b.setAttribute('data-id', childId));
+                }
+            }
+
+            if (saveBtn) {
+                const editWrap = tile.querySelector('.edit-inline');
+                const input = editWrap?.querySelector('.edit-name-input');
+                const newName = input?.value?.trim();
+                if (!newName) return;
+                const trimmed = newName.slice(0, 50);
+                saveBtn.disabled = true;
+                const oldHtml = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                fetch(`{{ route('parent.children.update', ['child' => '__ID__']) }}`.replace('__ID__',
+                        childId), {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: trimmed
+                        })
+                    })
+                    .then(async (res) => {
+                        const data = await res.json();
+                        if (!res.ok) throw data;
+                        return data;
+                    })
+                    .then(({
+                        data
+                    }) => {
+                        const nameEl = tile.querySelector('.profile-name');
+                        const avatarEl = tile.querySelector('.profile-avatar');
+                        if (nameEl) nameEl.textContent = data.name;
+                        if (avatarEl) avatarEl.textContent = (data.name || '?').charAt(0).toUpperCase();
+                        if (tile._editBtn) tile._editBtn.setAttribute('data-name', data.name);
+                        editWrap.classList.add('d-none');
+                        if (nameEl) nameEl.classList.remove('d-none');
+                        const hint = tile.querySelector('small');
+                        if (hint) hint.classList.remove('d-none');
+                        tile.classList.remove('editing');
+                        if (window.toastr) toastr.success('Profile name updated.');
+                    })
+                    .catch((err) => {
+                        let msg = 'Could not update profile.';
+                        if (err && err.message) msg = err.message;
+                        if (err && err.errors) {
+                            const firstKey = Object.keys(err.errors)[0];
+                            if (firstKey && err.errors[firstKey][0]) msg = err.errors[firstKey][0];
+                        }
+                        if (window.toastr) toastr.error(msg);
+                    })
+                    .finally(() => {
+                        saveBtn.disabled = false;
+                        saveBtn.innerHTML = oldHtml;
+                    });
+            }
+
+            if (cancelBtn) {
+                const editWrap = tile.querySelector('.edit-inline');
+                const nameEl = tile.querySelector('.profile-name');
+                if (editWrap) editWrap.classList.add('d-none');
+                if (nameEl) nameEl.classList.remove('d-none');
+                const hint = tile.querySelector('small');
+                if (hint) hint.classList.remove('d-none');
+                tile.classList.remove('editing');
             }
 
             if (delBtn) {
-                if (!window.confirm('Delete this profile? This cannot be undone.')) return;
-                fetch(`{{ route('parent.children.destroy', ['child' => '__ID__']) }}`.replace('__ID__', childId), {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(async (res) => {
-                    const data = await res.json();
-                    if (!res.ok) throw data;
-                    return data;
-                })
-                .then(({ count, limit }) => {
-                    // Remove tile
-                    tile.remove();
-                    if (window.toastr) toastr.success('Profile deleted.');
-                    // Re-add Add tile if under limit and not present
-                    if (count < limit && !document.getElementById('addProfileTile')) {
-                        const add = document.createElement('div');
-                        add.className = 'profile-tile add-tile';
-                        add.id = 'addProfileTile';
-                        add.innerHTML = `
-                            <div class=\"profile-avatar\"><i class=\"fas fa-plus\"></i></div>
-                            <div class=\"profile-name\">Add New Profile</div>
-                            <small class=\"text-muted\">Create learning profile</small>
-                        `;
-                        grid.appendChild(add);
-                        add.addEventListener('click', function() {
-                            createForm.style.display = 'block';
-                            nameInput.focus();
+                const childName = tile.querySelector('.profile-name')?.textContent?.trim() || '';
+                const $modal = $('#confirmChildDeleteModal');
+                $modal.find('.child-name').text(childName);
+                const confirmBtn = document.getElementById('confirmChildDeleteYes');
+                const handler = function() {
+                    confirmBtn.disabled = true;
+                    const original = confirmBtn.innerHTML;
+                    confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting';
+                    fetch(`{{ route('parent.children.destroy', ['child' => '__ID__']) }}`.replace(
+                            '__ID__', childId), {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(async (res) => {
+                            const data = await res.json();
+                            if (!res.ok) throw data;
+                            return data;
+                        })
+                        .then(({
+                            count,
+                            limit
+                        }) => {
+                            tile.remove();
+                            if (window.toastr) toastr.success('Profile deleted.');
+                            if (count < limit && !document.getElementById('addProfileTile')) {
+                                const add = document.createElement('div');
+                                add.className = 'profile-tile add-tile';
+                                add.id = 'addProfileTile';
+                                add.innerHTML = `
+                                <div class=\"profile-avatar\"><i class=\"fas fa-plus\"></i></div>
+                                <div class=\"profile-name\">Add New Profile</div>
+                                <small class=\"text-muted\">Create learning profile</small>
+                            `;
+                                grid.appendChild(add);
+                                add.addEventListener('click', function() {
+                                    createForm.style.display = 'block';
+                                    nameInput.focus();
+                                });
+                                addTile = add;
+                            }
+                        })
+                        .catch((err) => {
+                            let msg = 'Could not delete profile.';
+                            if (err && err.message) msg = err.message;
+                            if (window.toastr) toastr.error(msg);
+                        })
+                        .finally(() => {
+                            confirmBtn.disabled = false;
+                            confirmBtn.innerHTML = original;
+                            $modal.modal('hide');
+                            confirmBtn.removeEventListener('click', handler);
                         });
-                        // Update ref
-                        addTile = add;
-                    }
-                })
-                .catch((err) => {
-                    let msg = 'Could not delete profile.';
-                    if (err && err.message) msg = err.message;
-                    if (window.toastr) toastr.error(msg);
-                });
+                };
+                const onHide = function() {
+                    confirmBtn.removeEventListener('click', handler);
+                    $('#confirmChildDeleteModal').off('hidden.bs.modal', onHide);
+                };
+                $('#confirmChildDeleteModal').on('hidden.bs.modal', onHide);
+                confirmBtn.addEventListener('click', handler);
+                $modal.modal('show');
+            }
+        });
+
+        // Keyboard support for inline edit
+        grid.addEventListener('keydown', function(e) {
+            const input = e.target.closest('.edit-name-input');
+            if (!input) return;
+            const tile = input.closest('.profile-tile');
+            if (!tile) return;
+            if (e.key === 'Enter') {
+                const btn = tile.querySelector('.save-edit');
+                if (btn) btn.click();
+            }
+            if (e.key === 'Escape') {
+                const btn = tile.querySelector('.cancel-edit');
+                if (btn) btn.click();
             }
         });
 
@@ -393,14 +523,19 @@
                             'X-CSRF-TOKEN': token,
                             'Accept': 'application/json'
                         },
-                        body: JSON.stringify({ name })
+                        body: JSON.stringify({
+                            name
+                        })
                     })
                     .then(async (res) => {
                         const data = await res.json();
                         if (!res.ok) throw data;
                         return data;
                     })
-                    .then(({ data, count }) => {
+                    .then(({
+                        data,
+                        count
+                    }) => {
                         // Create new tile
                         const tile = document.createElement('div');
                         tile.className = 'profile-tile';
@@ -416,11 +551,14 @@
                             <div class=\"profile-avatar\">${data.name.charAt(0).toUpperCase()}</div>
                             <div class=\"profile-name\">${data.name}</div>
                             <small class=\"text-muted\">Click to enter</small>
+                            <div class=\"edit-inline d-none\">\n                                <input type=\"text\" class=\"form-control form-control-sm edit-name-input\" value=\"${data.name}\" maxlength=\"50\" />\n                                <div class=\"mt-1\">\n                                    <button class=\"btn btn-success btn-sm save-edit\" type=\"button\" data-id=\"${data.id}\">Save</button>\n                                    <button class=\"btn btn-secondary btn-sm cancel-edit\" type=\"button\" data-id=\"${data.id}\">Cancel</button>\n                                </div>\n                            </div>
                         `;
 
                         // Add click handler
                         tile.addEventListener('click', function(e) {
-                            if (e.target.closest('.tile-actions')) return;
+                            if (e.target.closest('.tile-actions') || e.target.closest(
+                                    '.edit-inline') || this.classList.contains('editing'))
+                                return;
                             const url = this.getAttribute('data-url');
                             if (url) {
                                 this.style.opacity = '0.7';
