@@ -24,6 +24,7 @@
                         transition: all 0.3s ease;
                         padding: 1rem;
                         border-radius: 12px;
+                        position: relative;
                     }
 
                     .profile-tile:hover {
@@ -56,6 +57,16 @@
                         font-size: 1.1rem;
                         margin-bottom: 0.5rem;
                     }
+
+                    .tile-actions {
+                        position: absolute;
+                        top: 8px;
+                        right: 8px;
+                        display: flex;
+                        gap: 6px;
+                        z-index: 2;
+                    }
+                    .tile-actions .btn { padding: 2px 6px; }
 
                     .profile-tile.active .profile-avatar {
                         outline: 3px solid #28a745;
@@ -126,6 +137,16 @@
                     @foreach ($children as $child)
                         <div class="profile-tile {{ $activeId === $child->id ? 'active' : '' }}"
                             data-id="{{ $child->id }}" data-url="{{ route('parent.children.dashboard', $child) }}">
+                            <div class="tile-actions">
+                                <button type="button" class="btn btn-light btn-sm edit-child" title="Edit name"
+                                        data-id="{{ $child->id }}" data-name="{{ $child->name }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm delete-child" title="Delete profile"
+                                        data-id="{{ $child->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                             <div class="profile-avatar">
                                 {{ strtoupper(mb_substr($child->name, 0, 1)) }}
                             </div>
@@ -205,7 +226,7 @@
 
 <script>
     (function() {
-        const addTile = document.getElementById('addProfileTile');
+        let addTile = document.getElementById('addProfileTile');
         const createForm = document.getElementById('createProfileForm');
         const cancelBtn = document.getElementById('cancelCreate');
         const form = document.getElementById('newChildForm');
@@ -218,7 +239,9 @@
         // Click-to-navigate for existing tiles
         tiles.forEach((tile) => {
             if (tile.id === 'addProfileTile') return;
-            tile.addEventListener('click', function() {
+            tile.addEventListener('click', function(e) {
+                // Ignore clicks on action buttons
+                if (e.target.closest('.tile-actions')) return;
                 const url = this.getAttribute('data-url');
                 if (url) {
                     // Add loading state
@@ -235,6 +258,103 @@
                     }, 500);
                 }
             });
+        });
+
+        // Event delegation for edit/delete buttons
+        grid.addEventListener('click', function(e) {
+            const editBtn = e.target.closest('.edit-child');
+            const delBtn = e.target.closest('.delete-child');
+            if (!editBtn && !delBtn) return;
+            e.stopPropagation();
+            e.preventDefault();
+
+            const tile = e.target.closest('.profile-tile');
+            const childId = (editBtn || delBtn).getAttribute('data-id');
+
+            if (editBtn) {
+                const currentName = editBtn.getAttribute('data-name') || tile.querySelector('.profile-name')?.textContent?.trim() || '';
+                const newName = window.prompt('Enter new name for this profile:', currentName);
+                if (!newName || newName.trim().length === 0) return;
+                const trimmed = newName.trim().slice(0, 50);
+
+                fetch(`{{ route('parent.children.update', ['child' => '__ID__']) }}`.replace('__ID__', childId), {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ name: trimmed })
+                })
+                .then(async (res) => {
+                    const data = await res.json();
+                    if (!res.ok) throw data;
+                    return data;
+                })
+                .then(({ data }) => {
+                    // Update UI
+                    const nameEl = tile.querySelector('.profile-name');
+                    const avatarEl = tile.querySelector('.profile-avatar');
+                    if (nameEl) nameEl.textContent = data.name;
+                    if (avatarEl) avatarEl.textContent = (data.name || '?').charAt(0).toUpperCase();
+                    // Update button dataset
+                    editBtn.setAttribute('data-name', data.name);
+                    if (window.toastr) toastr.success('Profile name updated.');
+                })
+                .catch((err) => {
+                    let msg = 'Could not update profile.';
+                    if (err && err.message) msg = err.message;
+                    if (err && err.errors) {
+                        const firstKey = Object.keys(err.errors)[0];
+                        if (firstKey && err.errors[firstKey][0]) msg = err.errors[firstKey][0];
+                    }
+                    if (window.toastr) toastr.error(msg);
+                });
+            }
+
+            if (delBtn) {
+                if (!window.confirm('Delete this profile? This cannot be undone.')) return;
+                fetch(`{{ route('parent.children.destroy', ['child' => '__ID__']) }}`.replace('__ID__', childId), {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(async (res) => {
+                    const data = await res.json();
+                    if (!res.ok) throw data;
+                    return data;
+                })
+                .then(({ count, limit }) => {
+                    // Remove tile
+                    tile.remove();
+                    if (window.toastr) toastr.success('Profile deleted.');
+                    // Re-add Add tile if under limit and not present
+                    if (count < limit && !document.getElementById('addProfileTile')) {
+                        const add = document.createElement('div');
+                        add.className = 'profile-tile add-tile';
+                        add.id = 'addProfileTile';
+                        add.innerHTML = `
+                            <div class=\"profile-avatar\"><i class=\"fas fa-plus\"></i></div>
+                            <div class=\"profile-name\">Add New Profile</div>
+                            <small class=\"text-muted\">Create learning profile</small>
+                        `;
+                        grid.appendChild(add);
+                        add.addEventListener('click', function() {
+                            createForm.style.display = 'block';
+                            nameInput.focus();
+                        });
+                        // Update ref
+                        addTile = add;
+                    }
+                })
+                .catch((err) => {
+                    let msg = 'Could not delete profile.';
+                    if (err && err.message) msg = err.message;
+                    if (window.toastr) toastr.error(msg);
+                });
+            }
         });
 
         if (addTile) {
@@ -289,13 +409,18 @@
                             "{{ route('parent.children.dashboard', ['child' => '__ID__']) }}"
                             .replace('__ID__', data.id));
                         tile.innerHTML = `
-                            <div class="profile-avatar">${data.name.charAt(0).toUpperCase()}</div>
-                            <div class="profile-name">${data.name}</div>
-                            <small class="text-muted">Click to enter</small>
+                            <div class=\"tile-actions\">
+                                <button type=\"button\" class=\"btn btn-light btn-sm edit-child\" title=\"Edit name\" data-id=\"${data.id}\" data-name=\"${data.name}\">\n                                    <i class=\"fas fa-edit\"></i>\n                                </button>
+                                <button type=\"button\" class=\"btn btn-danger btn-sm delete-child\" title=\"Delete profile\" data-id=\"${data.id}\">\n                                    <i class=\"fas fa-trash\"></i>\n                                </button>
+                            </div>
+                            <div class=\"profile-avatar\">${data.name.charAt(0).toUpperCase()}</div>
+                            <div class=\"profile-name\">${data.name}</div>
+                            <small class=\"text-muted\">Click to enter</small>
                         `;
 
                         // Add click handler
-                        tile.addEventListener('click', function() {
+                        tile.addEventListener('click', function(e) {
+                            if (e.target.closest('.tile-actions')) return;
                             const url = this.getAttribute('data-url');
                             if (url) {
                                 this.style.opacity = '0.7';

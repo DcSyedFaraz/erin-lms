@@ -92,6 +92,8 @@ Route::prefix('parent')->middleware(['auth', 'role:Parent'])->group(function () 
     // Parent Child Profiles
     Route::get('/children', [ParentChildController::class, 'index'])->name('parent.children.index');
     Route::post('/children', [ParentChildController::class, 'store'])->name('parent.children.store');
+    Route::patch('/children/{child}', [ParentChildController::class, 'update'])->name('parent.children.update');
+    Route::delete('/children/{child}', [ParentChildController::class, 'destroy'])->name('parent.children.destroy');
     Route::get('/children/exit', [ParentChildController::class, 'exit'])->name('parent.children.exit');
 
     // Child View (Dashboard + Course)

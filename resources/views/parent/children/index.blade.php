@@ -54,9 +54,14 @@
                                                     <i class="fas fa-sign-in-alt mr-1"></i>Enter
                                                 </a>
                                                 <button class="btn btn-outline-secondary btn-sm"
-                                                        onclick="editChild({{ $child->id }}, '{{ $child->name }}')"
+                                                        onclick="editChild({{ $child->id }}, '{{ $child->name }}', this)"
                                                         title="Edit Profile">
                                                     <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                        onclick="deleteChild({{ $child->id }}, '{{ $child->name }}', this)"
+                                                        title="Delete Profile">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -132,11 +137,74 @@
 </style>
 
 <script>
-function editChild(id, name) {
-    // This would open an edit modal - implement as needed
-    if (window.toastr) {
-        toastr.info('Edit functionality coming soon!');
-    }
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+function editChild(id, currentName, btn) {
+    const newName = window.prompt('Enter new name for this profile:', currentName || '');
+    if (!newName || newName.trim().length === 0) return;
+    const trimmed = newName.trim().slice(0, 50);
+
+    fetch(`{{ route('parent.children.update', ['child' => '__ID__']) }}`.replace('__ID__', id), {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': CSRF_TOKEN,
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ name: trimmed })
+    })
+    .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw data;
+        return data;
+    })
+    .then(({ data }) => {
+        // Update text in the corresponding card if present
+        const card = btn ? btn.closest('.card') : null;
+        if (card) {
+            const nameEl = card.querySelector('.card-title');
+            const avatarEl = card.querySelector('.profile-avatar');
+            if (nameEl) nameEl.textContent = data.name;
+            if (avatarEl) avatarEl.textContent = (data.name || '?').charAt(0).toUpperCase();
+        }
+        if (window.toastr) toastr.success('Profile name updated.');
+    })
+    .catch((err) => {
+        let msg = 'Could not update profile.';
+        if (err && err.message) msg = err.message;
+        if (err && err.errors) {
+            const firstKey = Object.keys(err.errors)[0];
+            if (firstKey && err.errors[firstKey][0]) msg = err.errors[firstKey][0];
+        }
+        if (window.toastr) toastr.error(msg);
+    });
+}
+
+function deleteChild(id, name, btn) {
+    if (!window.confirm(`Delete profile "${name}"? This cannot be undone.`)) return;
+    fetch(`{{ route('parent.children.destroy', ['child' => '__ID__']) }}`.replace('__ID__', id), {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': CSRF_TOKEN,
+            'Accept': 'application/json'
+        }
+    })
+    .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw data;
+        return data;
+    })
+    .then(() => {
+        // Remove card from DOM
+        const card = btn.closest('.col-sm-6, .col-md-4, .col-lg-3');
+        if (card) card.remove();
+        if (window.toastr) toastr.success('Profile deleted.');
+    })
+    .catch((err) => {
+        let msg = 'Could not delete profile.';
+        if (err && err.message) msg = err.message;
+        if (window.toastr) toastr.error(msg);
+    });
 }
 </script>
 

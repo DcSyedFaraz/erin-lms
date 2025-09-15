@@ -6,6 +6,7 @@ use App\Models\ChildProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class ParentChildController extends Controller
 {
@@ -59,5 +60,55 @@ class ParentChildController extends Controller
     {
         session()->forget('active_child_id');
         return redirect()->route('parent.dashboard');
+    }
+
+    public function update(Request $request, ChildProfile $child): JsonResponse
+    {
+        $user = Auth::user();
+
+        if ($child->user_id !== $user->id) {
+            return response()->json(['message' => 'Not authorized to update this profile.'], 403);
+        }
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:50'],
+        ]);
+
+        $child->update([
+            'name' => $validated['name'],
+        ]);
+
+        return response()->json([
+            'message' => 'Child profile updated successfully.',
+            'data' => [
+                'id' => $child->id,
+                'name' => $child->name,
+                'avatar' => $child->avatar,
+            ],
+        ]);
+    }
+
+    public function destroy(ChildProfile $child): JsonResponse
+    {
+        $user = Auth::user();
+
+        if ($child->user_id !== $user->id) {
+            return response()->json(['message' => 'Not authorized to delete this profile.'], 403);
+        }
+
+        // Clear active child if deleting the active one
+        if (session('active_child_id') === $child->id) {
+            session()->forget('active_child_id');
+        }
+
+        $child->delete();
+
+        $remaining = $user->childProfiles()->count();
+
+        return response()->json([
+            'message' => 'Child profile deleted successfully.',
+            'count' => $remaining,
+            'limit' => 5,
+        ]);
     }
 }
