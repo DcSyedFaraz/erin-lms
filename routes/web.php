@@ -17,6 +17,7 @@ use App\Http\Controllers\ParentDashboardController;
 use App\Http\Controllers\ParentCourseController;
 use App\Http\Controllers\ParentChildController;
 use App\Http\Controllers\ChildDashboardController;
+use App\Http\Controllers\ChildQuizController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -100,6 +101,11 @@ Route::prefix('parent')->middleware(['auth', 'role:Parent'])->group(function () 
     Route::get('/children/{child}', [ChildDashboardController::class, 'dashboard'])->name('parent.children.dashboard');
     Route::get('/children/{child}/courses/{course}', [ChildDashboardController::class, 'course'])->name('parent.children.course');
     Route::get('/children/{child}/courses/{course}/modules/{module}', [ChildDashboardController::class, 'module'])->name('parent.children.course.module');
+
+    // Child Quiz Routes
+    Route::post('/children/{child}/courses/{course}/modules/{module}/quiz/start', [ChildQuizController::class, 'start'])->name('parent.children.quiz.start');
+    Route::post('/children/{child}/courses/{course}/modules/{module}/quiz/answer', [ChildQuizController::class, 'answer'])->name('parent.children.quiz.answer');
+    Route::post('/children/{child}/courses/{course}/modules/{module}/quiz/complete', [ChildQuizController::class, 'complete'])->name('parent.children.quiz.complete');
 });
 
 Route::get('login/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');

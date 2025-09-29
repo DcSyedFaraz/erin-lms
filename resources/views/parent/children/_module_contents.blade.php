@@ -1,4 +1,34 @@
 @php($moduleHasContent = $module->contents->count() > 0)
+@php($quizCount = $module->quizzes->count())
+@php($maxPoints = $module->quizzes->sum('points'))
+@if ($quizCount > 0)
+    <div class="position-absolute" style="top: 0.75rem; right: 0.75rem; z-index: 5;">
+        <div class="d-flex align-items-center">
+            <span class="badge badge-info mr-2" title="Total points">
+                <i class="fas fa-star mr-1"></i> {{ $maxPoints }} pts
+            </span>
+            <button class="btn btn-sm btn-success" id="startQuizBtn"
+                data-start-url="{{ route('parent.children.quiz.start', ['child' => $child->id, 'course' => $course->id, 'module' => $module->id]) }}">
+                <i class="fas fa-gamepad mr-1"></i> Start Quiz
+            </button>
+        </div>
+    </div>
+    @isset($stats)
+    <div class="mb-3 mt-1">
+        <div class="d-flex align-items-center flex-wrap">
+            <span class="badge badge-primary mr-2 mb-1" title="Best score"><i class="fas fa-trophy mr-1"></i>{{ $stats['best_points'] }}/{{ $stats['max_points'] }} pts</span>
+            <span class="badge badge-secondary mr-2 mb-1" title="Attempts"><i class="fas fa-redo mr-1"></i>{{ $stats['attempts'] }} tries</span>
+            @if(!is_null($stats['last_percent']))
+                <span class="badge badge-success mr-2 mb-1" title="Last score">Last {{ $stats['last_percent'] }}%</span>
+            @endif
+            @if(!is_null($stats['best_percent']))
+                <span class="badge badge-info mr-2 mb-1" title="Best percent">Best {{ $stats['best_percent'] }}%</span>
+            @endif
+        </div>
+    </div>
+    @endisset
+
+@endif
 @if ($moduleHasContent)
     @foreach ($module->contents as $content)
         <div class="content-item">

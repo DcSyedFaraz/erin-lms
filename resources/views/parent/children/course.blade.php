@@ -13,7 +13,23 @@
                                 <h2 class="mb-1"><i class="fas fa-book-open mr-2"></i>{{ $course->title }}</h2>
                                 <p class="mb-0 opacity-75">Learning as {{ $child->name }}</p>
                             </div>
-                            <div>
+                            <div class="text-right">
+                                @isset($courseStats)
+                                    <div class="mb-2">
+                                        <span class="badge badge-light text-dark mr-2" title="Your best across modules">
+                                            <i class="fas fa-trophy text-warning mr-1"></i>
+                                            Best {{ $courseStats['best_points'] }}/{{ $courseStats['max_points'] }} pts
+                                        </span>
+                                        <span class="badge badge-light text-dark mr-2" title="Attempts">
+                                            <i class="fas fa-redo mr-1"></i>{{ $courseStats['attempts'] }} attempts
+                                        </span>
+                                        @if(!is_null($courseStats['avg_percent']))
+                                            <span class="badge badge-light text-dark" title="Average score">
+                                                <i class="fas fa-chart-line mr-1"></i>{{ $courseStats['avg_percent'] }}%
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endisset
                                 <a href="{{ route('parent.children.dashboard', $child) }}" class="btn btn-light">
                                     <i class="fas fa-arrow-left mr-1"></i> Back to Courses
                                 </a>
@@ -52,10 +68,27 @@
                                             <p class="mb-1 small text-muted">
                                                 {{ \Illuminate\Support\Str::limit($module->description, 90) }}
                                             </p>
-                                            <small class="text-muted">
-                                                <i class="fas fa-file-alt mr-1"></i>{{ $module->contents->count() }}
-                                                Content{{ $module->contents->count() !== 1 ? 's' : '' }}
-                                            </small>
+                                            <div class="d-flex align-items-center flex-wrap">
+                                                <small class="text-muted mr-3">
+                                                    <i class="fas fa-file-alt mr-1"></i>{{ $module->contents->count() }}
+                                                    Content{{ $module->contents->count() !== 1 ? 's' : '' }}
+                                                </small>
+                                                @isset($quizStats)
+                                                    @php($s = $quizStats[$module->id] ?? null)
+                                                    @if($s)
+                                                        <small class="mr-2">
+                                                            <span class="badge badge-primary" title="Best score">
+                                                                <i class="fas fa-star mr-1"></i>{{ $s['best_points'] }}/{{ $s['max_points'] }}
+                                                            </span>
+                                                        </small>
+                                                        <small>
+                                                            <span class="badge badge-secondary" title="Attempts">
+                                                                <i class="fas fa-redo mr-1"></i>{{ $s['attempts'] }}
+                                                            </span>
+                                                        </small>
+                                                    @endif
+                                                @endisset
+                                            </div>
                                         </div>
                                         <i class="fas fa-chevron-right text-muted ml-2"></i>
                                     </div>
@@ -307,6 +340,126 @@
                     setLoading(false);
                 }
             }
+
+            // ------- Quiz Helpers -------
+            function getCsrf(){
+                const m = document.querySelector('meta[name="csrf-token"]');
+                return m ? m.getAttribute('content') : '';
+            }
+
+            function pad(n){ return n<10 ? '0'+n : ''+n; }
+
+            function initQuizUI(){
+                const wrapper = document.getElementById('quizWrapper');
+                if (!wrapper) return;
+                const attemptId = wrapper.getAttribute('data-attempt-id');
+                const answerUrl = wrapper.getAttribute('data-answer-url');
+                const completeUrl = wrapper.getAttribute('data-complete-url');
+                const endsAtIso = wrapper.getAttribute('data-ends-at');
+
+                // Timer
+                if (endsAtIso){
+                    const el = document.getElementById('quizTimer');
+                    const end = new Date(endsAtIso).getTime();
+                    const tick = () => {
+                        const now = Date.now();
+                        let diff = Math.floor((end - now) / 1000);
+                        if (diff <= 0) {
+                            el.textContent = '00:00';
+                            clearInterval(timer);
+                            // finalize
+                            fetch(completeUrl, { method: 'POST', headers: { 'X-CSRF-TOKEN': getCsrf(), 'Accept':'application/json' }, body: new URLSearchParams({ attempt_id: attemptId }) })
+                                .then(r=>r.json())
+                                .then(data=>{ if (data && data.html){ document.getElementById('quizQuestionContainer').innerHTML = data.html; } });
+                            return;
+                        }
+                        const m = Math.floor(diff/60); const s = diff%60;
+                        el.textContent = pad(m)+':'+pad(s);
+                    };
+                    tick();
+                    const timer = setInterval(tick, 1000);
+                }
+
+                // Bind answer form submit
+                const form = document.getElementById('quizAnswerForm');
+                if (form){
+                    const submitBtn = document.getElementById('submitAnswerBtn');
+                    const inputs = form.querySelectorAll('input[name="selected_answer"]');
+                    const labels = form.querySelectorAll('label.quiz-option');
+                    if (submitBtn) submitBtn.disabled = true;
+                    inputs.forEach(i=> i.addEventListener('change', (ev)=>{
+                        if (submitBtn) submitBtn.disabled = false;
+                        // Fallback: toggle active class to reflect selection
+                        labels.forEach(l => l.classList.remove('active'));
+                        const lbl = ev.target.closest('label.quiz-option');
+                        if (lbl) lbl.classList.add('active');
+                    }));
+
+                    form.addEventListener('submit', async function(e){
+                        e.preventDefault();
+                        if (submitBtn){ submitBtn.disabled = true; submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm mr-1"></span> Submitting...'; }
+                        const fd = new FormData(form);
+                        fd.append('attempt_id', attemptId);
+                        try{
+                            const res = await fetch(answerUrl, { method: 'POST', headers: { 'X-CSRF-TOKEN': getCsrf(), 'Accept':'application/json' }, body: fd });
+                            const data = await res.json();
+                            if ((data.status === 'ok' || data.status === 'completed' || data.status === 'expired') && data.html){
+                                document.getElementById('quizQuestionContainer').innerHTML = data.html;
+                                if (data.progress){
+                                    const pc = document.getElementById('quizProgressCurrent');
+                                    if (pc) pc.textContent = data.progress.current;
+                                    const pn = document.getElementById('pointsNow');
+                                    if (pn) pn.textContent = data.progress.points;
+                                    const pm = document.getElementById('pointsMax');
+                                    if (pm && data.progress.max) pm.textContent = data.progress.max;
+                                    const timer = document.getElementById('quizTimer');
+                                    if (timer && (data.status === 'completed' || data.status === 'expired')) timer.textContent = '00:00';
+                                }
+                                initQuizUI(); // bind new DOM
+                                if (window.toastr) toastr.success('Answer submitted');
+                            } else {
+                                if (window.toastr) toastr.error('Could not submit answer');
+                            }
+                        } catch (err){
+                            console.error(err);
+                            if (window.toastr) toastr.error('Error submitting answer');
+                        } finally {
+                            if (submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Submit & Next'; }
+                        }
+                    });
+                }
+            }
+
+            // Event delegation for quiz buttons
+            document.addEventListener('click', async function(e){
+                const target = e.target.closest('#startQuizBtn');
+                if (target && viewer.contains(target)){
+                    e.preventDefault();
+                    const url = target.getAttribute('data-start-url');
+                    try{
+                        const res = await fetch(url, { method: 'POST', headers: { 'X-CSRF-TOKEN': getCsrf(), 'Accept':'text/html' } });
+                        const html = await res.text();
+                        viewer.innerHTML = html;
+                        initQuizUI();
+                    } catch (err){
+                        console.error(err);
+                        if (window.toastr) toastr.error('Could not start quiz');
+                    }
+                    return;
+                }
+
+                const back = e.target.closest('#backToModuleBtn, #summaryBackBtn');
+                if (back && viewer.contains(back)){
+                    e.preventDefault();
+                    const url = back.getAttribute('data-module-url');
+                    try{
+                        const res = await fetch(url, { headers: { 'Accept': 'text/html' } });
+                        const html = await res.text();
+                        viewer.innerHTML = html;
+                    } catch (err){ console.error(err); }
+                    return;
+                }
+            });
 
             // Event listeners for module items
             items.forEach((el) => {

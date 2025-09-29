@@ -19,5 +19,9 @@ class ChildProfile extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-}
 
+    public function quizAttempts()
+    {
+        return $this->hasMany(QuizAttempt::class, 'child_profile_id');
+    }
+}
