@@ -50,6 +50,15 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $user->assignRole('Admin');
+        $parent = User::firstOrCreate(
+            ['email' => 'user@gmail.com'],
+            [
+                'name' => 'User',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now()
+            ]
+        );
+        $parent->assignRole('Parent');
 
         // Assign all permissions to Admin role
         $adminRole = Role::where('name', 'Admin')->first();
@@ -59,6 +68,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             LevelSeeder::class,
+            CourseModuleQuizSeeder::class,
         ]);
     }
 }

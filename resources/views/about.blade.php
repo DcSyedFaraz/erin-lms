@@ -32,19 +32,13 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="vid1">
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="vid2">
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
                                 </div>
                             </div>
                         </div>
@@ -53,19 +47,13 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="vid1">
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="vid2">
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
                                 </div>
                             </div>
                         </div>
@@ -74,19 +62,13 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="vid1">
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="vid2">
-                                    <video
-                                          src="{{ asset('assets/images/dummy_video_test.mp4') }}"
-                                        controls></video>
+                                    <video src="{{ asset('assets/images/dummy_video_test.mp4') }}" controls></video>
                                 </div>
                             </div>
                         </div>
@@ -95,4 +77,4 @@
             </div>
         </section>
     </section>
-   @endsection
+@endsection
