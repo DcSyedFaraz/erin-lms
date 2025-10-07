@@ -49,7 +49,7 @@ class ChildDashboardController extends Controller
                 ->with('error', 'This course is not available to this child.');
         }
 
-        $course->load(['modules.contents', 'modules.quizzes']);
+        $course->load(['modules' => function($q){ $q->orderBy('order'); }, 'modules.contents', 'modules.quizzes']);
 
         // Build child-friendly analytics for modules and course
         $moduleIds = $course->modules->pluck('id')->all();
@@ -59,6 +59,7 @@ class ChildDashboardController extends Controller
             ->get();
 
         $stats = [];
+        $completedOrExpiredByModule = [];
         foreach ($course->modules as $m) {
             $modsAttempts = $attempts->where('module_id', $m->id);
             $count = $modsAttempts->count();
@@ -79,6 +80,8 @@ class ChildDashboardController extends Controller
                 'avg_percent' => $avgPercent,
                 'last_status' => $last?->status,
             ];
+
+            $completedOrExpiredByModule[$m->id] = $modsAttempts->whereIn('status', ['completed', 'expired'])->isNotEmpty();
         }
 
         // Course-level rollup
@@ -96,10 +99,20 @@ class ChildDashboardController extends Controller
 
         session(['active_child_id' => $child->id]);
 
+        // Determine locked modules based on sequential attempts
+        $locked = [];
+        $sorted = $course->modules->sortBy('order')->values();
+        foreach ($sorted as $idx => $m) {
+            if ($idx === 0) { $locked[$m->id] = false; continue; }
+            $prev = $sorted[$idx - 1];
+            $locked[$m->id] = !($completedOrExpiredByModule[$prev->id] ?? false);
+        }
+
         return view('parent.children.course', [
             'child' => $child,
             'course' => $course,
             'quizStats' => $stats,
+            'lockedModules' => $locked,
             'courseStats' => [
                 'attempts' => $courseAttempts,
                 'best_points' => $courseBest,
@@ -123,6 +136,19 @@ class ChildDashboardController extends Controller
             ->exists();
 
         abort_unless($hasPurchase, 403);
+
+        // Enforce gating: require previous module's quiz attempted (completed/expired)
+        $prev = Module::where('course_id', $course->id)
+            ->where('order', '<', $module->order)
+            ->orderByDesc('order')
+            ->first();
+        if ($prev) {
+            $hasPrevAttempt = \App\Models\QuizAttempt::where('child_profile_id', $child->id)
+                ->where('module_id', $prev->id)
+                ->whereIn('status', ['completed', 'expired'])
+                ->exists();
+            abort_unless($hasPrevAttempt, 403, 'This module is locked until the previous module\'s quiz is submitted.');
+        }
 
         $module->loadMissing(['contents', 'quizzes']);
 

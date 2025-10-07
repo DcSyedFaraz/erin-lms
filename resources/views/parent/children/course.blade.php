@@ -57,13 +57,19 @@
                     <div class="card-body p-0">
                         <div class="list-group list-group-flush" style="max-height: 500px; overflow-y: auto;">
                             @forelse($course->modules as $module)
-                                <a href="#" class="list-group-item list-group-item-action module-item border-0"
-                                    data-module-id="{{ $module->id }}" title="Open {{ $module->title }}">
+                                @php($isLocked = ($lockedModules[$module->id] ?? false))
+                                <a href="#" class="list-group-item list-group-item-action module-item border-0 {{ $isLocked ? 'disabled text-muted' : '' }}"
+                                    data-module-id="{{ $module->id }}" title="{{ $isLocked ? 'Locked until previous quiz is submitted' : 'Open '.$module->title }}" {{ $isLocked ? 'data-locked=1' : '' }}>
                                     <div class="d-flex w-100 justify-content-between align-items-start">
                                         <div class="flex-grow-1">
                                             <div class="d-flex align-items-center mb-1">
                                                 <span class="badge badge-primary mr-2">#{{ $module->order }}</span>
-                                                <h6 class="mb-0 font-weight-bold">{{ $module->title }}</h6>
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    @if($isLocked)
+                                                        <i class="fas fa-lock text-secondary mr-1" title="Locked"></i>
+                                                    @endif
+                                                    {{ $module->title }}
+                                                </h6>
                                             </div>
                                             <p class="mb-1 small text-muted">
                                                 {{ \Illuminate\Support\Str::limit($module->description, 90) }}
@@ -465,6 +471,10 @@
             items.forEach((el) => {
                 el.addEventListener('click', function(e) {
                     e.preventDefault();
+                    if (this.hasAttribute('data-locked')){
+                        if (window.toastr) toastr.info('This module is locked until the previous module\'s quiz is submitted.');
+                        return;
+                    }
                     const id = this.getAttribute('data-module-id');
                     const t = this.querySelector('h6')?.textContent?.trim() || 'Module';
                     if (id) loadModule(id, t);
@@ -474,7 +484,10 @@
             // Auto-load initial module
             const params = new URLSearchParams(window.location.search);
             let initial = params.get('module');
-            if (!initial && items.length) initial = items[0].getAttribute('data-module-id');
+            if (!initial && items.length){
+                const firstUnlocked = Array.from(items).find(x => !x.hasAttribute('data-locked'));
+                if (firstUnlocked) initial = firstUnlocked.getAttribute('data-module-id');
+            }
             if (initial) {
                 const initialEl = Array.from(items).find(x => x.getAttribute('data-module-id') == initial);
                 const t = initialEl ? (initialEl.querySelector('h6')?.textContent?.trim() || 'Module') : 'Module';

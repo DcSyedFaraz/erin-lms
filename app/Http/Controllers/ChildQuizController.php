@@ -41,6 +41,19 @@ class ChildQuizController extends Controller
         $this->assertModuleInCourse($module, $course);
         $this->assertCoursePurchased($request, $course);
 
+        // Gating: require previous module's quiz to be attempted (completed/expired)
+        $prev = Module::where('course_id', $course->id)
+            ->where('order', '<', $module->order)
+            ->orderByDesc('order')
+            ->first();
+        if ($prev) {
+            $hasPrevAttempt = QuizAttempt::where('child_profile_id', $child->id)
+                ->where('module_id', $prev->id)
+                ->whereIn('status', ['completed', 'expired'])
+                ->exists();
+            abort_unless($hasPrevAttempt, 403, 'This module is locked until the previous module\'s quiz is submitted.');
+        }
+
         $module->loadMissing('quizzes');
         abort_unless($module->quizzes->count() > 0, 404);
 

@@ -60,6 +60,10 @@
                                                    class="btn btn-primary btn-sm">
                                                     <i class="fas fa-sign-in-alt mr-1"></i>Enter
                                                 </a>
+                                                <a href="{{ route('parent.children.analytics', $child) }}"
+                                                   class="btn btn-outline-info btn-sm" title="View Analytics">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </a>
                                                 <button class="btn btn-outline-secondary btn-sm"
                                                         onclick="editChild({{ $child->id }}, '{{ $child->name }}', this)"
                                                         title="Edit Profile">

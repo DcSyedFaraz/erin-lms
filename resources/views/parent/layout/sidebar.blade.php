@@ -44,6 +44,30 @@
                     </a>
                 </li>
 
+                <li class="nav-item has-treeview {{ request()->routeIs('parent.children.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('parent.children.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-child"></i>
+                        <p>
+                            Children
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('parent.children.index') }}" class="nav-link {{ request()->routeIs('parent.children.index') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Profiles</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('parent.children.analytics.overall') }}" class="nav-link {{ request()->routeIs('parent.children.analytics.overall') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Analytics (All)</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form-parent').submit();">
                         <i class="nav-icon fas fa-sign-out-alt"></i>

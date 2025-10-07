@@ -106,6 +106,14 @@ Route::prefix('parent')->middleware(['auth', 'role:Parent'])->group(function () 
     Route::post('/children/{child}/courses/{course}/modules/{module}/quiz/start', [ChildQuizController::class, 'start'])->name('parent.children.quiz.start');
     Route::post('/children/{child}/courses/{course}/modules/{module}/quiz/answer', [ChildQuizController::class, 'answer'])->name('parent.children.quiz.answer');
     Route::post('/children/{child}/courses/{course}/modules/{module}/quiz/complete', [ChildQuizController::class, 'complete'])->name('parent.children.quiz.complete');
+
+    // Analytics
+    Route::get('/analytics/children', [\App\Http\Controllers\ParentAnalyticsController::class, 'overall'])->name('parent.children.analytics.overall');
+    Route::get('/children/analytics/export/csv', [\App\Http\Controllers\ParentAnalyticsController::class, 'exportCsvAll'])->name('parent.children.analytics.overall.csv');
+    Route::get('/children/analytics/export/pdf', [\App\Http\Controllers\ParentAnalyticsController::class, 'exportPdfAll'])->name('parent.children.analytics.overall.pdf');
+    Route::get('/children/{child}/analytics', [\App\Http\Controllers\ParentAnalyticsController::class, 'show'])->name('parent.children.analytics');
+    Route::get('/children/{child}/analytics/export/csv', [\App\Http\Controllers\ParentAnalyticsController::class, 'exportCsv'])->name('parent.children.analytics.csv');
+    Route::get('/children/{child}/analytics/export/pdf', [\App\Http\Controllers\ParentAnalyticsController::class, 'exportPdf'])->name('parent.children.analytics.pdf');
 });
 
 Route::get('login/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
