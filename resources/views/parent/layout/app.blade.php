@@ -18,7 +18,7 @@
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{ asset('assets/images/logo-black.png') }}" alt="Logo">
+            <img class="animation__wobble" src="{{ asset('assets/images/logo2.png') }}" alt="Logo">
         </div>
 
         @include('admin.layout.navbar')

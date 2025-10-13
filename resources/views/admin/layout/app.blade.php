@@ -40,7 +40,7 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{ asset('assets/images/logo-black.png') }}" alt="AdminLTELogo">
+            <img class="animation__wobble w-50" src="{{ asset('assets/images/logo2.png') }}" alt="AdminLTELogo">
         </div>
 
         @include('admin.layout.navbar')
