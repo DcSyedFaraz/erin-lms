@@ -14,4 +14,9 @@ class SubscriptionPlan extends Model
         'interval',
         'is_trial',
     ];
+
+    public function features()
+    {
+        return $this->hasMany(SubscriptionFeature::class, 'subscription_plan_id')->orderBy('sort_order');
+    }
 }

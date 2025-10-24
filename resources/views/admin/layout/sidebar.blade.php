@@ -3,8 +3,7 @@
      <!-- Brand Logo -->
      <a href="/" class="brand-link">
          <img src="{{ asset('assets/images/logo2.png') }}" alt="AdminLTE Logo"
-             class="brand-image img-circle elevation-3" style="opacity: .8">
-         <span class="brand-text font-weight-light">AdminLTE 3</span>
+             class="brand-image " style="opacity: .8">
      </a>
 
      <!-- Sidebar -->
@@ -84,6 +83,30 @@
                          class="nav-link {{ request()->routeIs('plans.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                          <p>Plans</p>
+                     </a>
+                 </li>
+
+                 <li class="nav-item">
+                 <a href="{{ route('admin.subscriptions.assign.create') }}"
+                         class="nav-link {{ request()->routeIs('admin.subscriptions.assign.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user-check"></i>
+                         <p>Assign Subscription</p>
+                     </a>
+                 </li>
+
+                 <li class="nav-item">
+                 <a href="{{ route('admin.subscriptions.index') }}"
+                         class="nav-link {{ request()->routeIs('admin.subscriptions.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                         <p>Plan Purchasers</p>
+                     </a>
+                 </li>
+
+                 <li class="nav-item">
+                 <a href="{{ route('admin.subscriptions.stats') }}"
+                         class="nav-link {{ request()->routeIs('admin.subscriptions.stats') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                         <p>Subscription Stats</p>
                      </a>
                  </li>
 

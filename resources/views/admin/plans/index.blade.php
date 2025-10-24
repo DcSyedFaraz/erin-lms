@@ -41,6 +41,7 @@
                                 <td>{{ $plan->interval }}</td>
                                 <td>{{ $plan->is_trial ? 'Yes' : 'No' }}</td>
                                 <td>
+                                    <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                     <form action="{{ route('plans.destroy', $plan->id) }}" method="POST" class="d-inline"
                                         onsubmit="return confirm('Are you sure?');">
                                         @csrf @method('DELETE')

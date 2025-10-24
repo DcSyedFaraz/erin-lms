@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ModuleController;
+use App\Http\Controllers\Admin\SubscriptionAssignmentController;
+use App\Http\Controllers\Admin\SubscriptionReportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +20,7 @@ use App\Http\Controllers\ParentCourseController;
 use App\Http\Controllers\ParentChildController;
 use App\Http\Controllers\ChildDashboardController;
 use App\Http\Controllers\ChildQuizController;
+use App\Http\Controllers\SubscriptionController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -35,13 +38,21 @@ use App\Http\Controllers\ChildQuizController;
   Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
   Route::get('/membership', [HomeController::class, 'membership'])->name('membership');
   Route::get('/lesson', [HomeController::class, 'lesson'])->name('lesson');
-  Route::view('/dashboard', 'dashboard')->name('dashboard');
+  Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Subscription purchase routes (separate from course management)
+Route::middleware('auth')->group(function () {
+    Route::get('/subscriptions/me', [SubscriptionController::class, 'me'])->name('subscriptions.me');
+    Route::post('/subscriptions/{plan}/checkout', [SubscriptionController::class, 'checkout'])->name('subscriptions.checkout');
+    Route::get('/subscriptions/success', [SubscriptionController::class, 'success'])->name('subscriptions.success');
+    Route::get('/subscriptions/cancel', [SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
 });
 
 Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
@@ -69,6 +80,14 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('courses/{course}/modules/reorder', [ModuleController::class, 'reorder'])->name('modules.reorder');
 
     Route::resource('plans', SubscriptionPlanController::class);
+
+    // Manual Subscription Assignment
+    Route::get('subscriptions/assign', [SubscriptionAssignmentController::class, 'create'])->name('admin.subscriptions.assign.create');
+    Route::post('subscriptions/assign', [SubscriptionAssignmentController::class, 'store'])->name('admin.subscriptions.assign.store');
+
+    // Subscriptions reports
+    Route::get('subscriptions', [SubscriptionReportController::class, 'index'])->name('admin.subscriptions.index');
+    Route::get('subscriptions/stats', [SubscriptionReportController::class, 'stats'])->name('admin.subscriptions.stats');
 
     Route::resource('categories', CategoryController::class);
 });
@@ -120,3 +139,7 @@ Route::get('login/{provider}', [SocialLoginController::class, 'redirect'])->name
 Route::get('login/{provider}/callback', [SocialLoginController::class, 'callback'])->name('social.callback');
 
 require __DIR__ . '/auth.php';
+
+// Stripe Webhook (Laravel Cashier)
+use Laravel\Cashier\Http\Controllers\WebhookController as CashierWebhookController;
+Route::post('/stripe/webhook', [CashierWebhookController::class, '__invoke'])->name('cashier.webhook');
