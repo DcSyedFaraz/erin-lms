@@ -148,16 +148,35 @@ class SubscriptionController extends Controller
         DB::table('subscription_items')->where('subscription_id', $localId)->delete();
         $item = $subscription->items->data[0] ?? null;
         if ($item) {
+            $productRef = $item->price->product ?? null;
+            $productId = is_string($productRef) ? $productRef : ($productRef->id ?? null);
             DB::table('subscription_items')->insert([
                 'subscription_id' => $localId,
                 'stripe_id' => $item->id,
-                'stripe_product' => $item->price->product,
+                'stripe_product' => $productId,
                 'stripe_price' => $item->price->id,
                 'quantity' => $item->quantity ?? 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+
+        // Log application-side update event
+        try {
+            \App\Models\SubscriptionEvent::create([
+                'user_id' => $user->id,
+                'local_subscription_id' => $localId,
+                'stripe_subscription_id' => $subscription->id,
+                'type' => 'app.subscription.updated',
+                'status' => $subscription->status,
+                'stripe_price_id' => $item?->price?->id,
+                'quantity' => $item?->quantity ?? 1,
+                'trial_ends_at' => $subscription->trial_end ? date('Y-m-d H:i:s', $subscription->trial_end) : null,
+                'ends_at' => null,
+                'occurred_at' => now(),
+                'payload' => null,
+            ]);
+        } catch (\Throwable $e) {}
 
         return redirect()->route('home')->with('success', 'Subscription activated successfully.');
     }

@@ -97,6 +97,7 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
 // Parent Routes (renamed from Learner)
 Route::prefix('parent')->middleware(['auth', 'role:Parent'])->group(function () {
     Route::get('/dashboard', [ParentDashboardController::class, 'index'])->name('parent.dashboard');
+    Route::get('/subscriptions', [\App\Http\Controllers\ParentSubscriptionController::class, 'index'])->name('parent.subscriptions.index');
 
     // Parent Course Purchase & Library
     Route::get('/courses', [ParentCourseController::class, 'index'])->name('parent.courses.index');
@@ -141,5 +142,5 @@ Route::get('login/{provider}/callback', [SocialLoginController::class, 'callback
 require __DIR__ . '/auth.php';
 
 // Stripe Webhook (Laravel Cashier)
-use Laravel\Cashier\Http\Controllers\WebhookController as CashierWebhookController;
+use App\Http\Controllers\Stripe\CashierWebhookController;
 Route::post('/stripe/webhook', [CashierWebhookController::class, '__invoke'])->name('cashier.webhook');

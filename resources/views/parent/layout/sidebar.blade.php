@@ -34,6 +34,14 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('parent.subscriptions.index') }}"
+                        class="nav-link {{ request()->routeIs('parent.subscriptions.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-receipt"></i>
+                        <p>My Subscription</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('parent.courses.my') }}"
                         class="nav-link {{ request()->routeIs('parent.courses.my') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>

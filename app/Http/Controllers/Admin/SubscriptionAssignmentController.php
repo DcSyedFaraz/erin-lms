@@ -76,6 +76,23 @@ class SubscriptionAssignmentController extends Controller
             'updated_at' => now(),
         ]);
 
+        // Log admin manual assignment
+        try {
+            \App\Models\SubscriptionEvent::create([
+                'user_id' => $userId,
+                'local_subscription_id' => $subscriptionId,
+                'stripe_subscription_id' => null,
+                'type' => 'admin.subscription.assigned',
+                'status' => 'active',
+                'stripe_price_id' => $plan->stripe_price_id,
+                'quantity' => 1,
+                'trial_ends_at' => $data['trial_ends_at'] ?? null,
+                'ends_at' => $data['ends_at'] ?? null,
+                'occurred_at' => now(),
+                'payload' => null,
+            ]);
+        } catch (\Throwable $e) {}
+
         return redirect()->route('admin.subscriptions.assign.create')
             ->with('success', 'Subscription assigned to user successfully.');
     }
