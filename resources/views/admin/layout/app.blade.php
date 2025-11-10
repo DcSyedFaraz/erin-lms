@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{ asset('backend/dist/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.css') }}">
+    <!-- Custom styles -->
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> --}}
     {{-- jquerry --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

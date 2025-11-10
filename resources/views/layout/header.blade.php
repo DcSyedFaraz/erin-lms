@@ -17,9 +17,9 @@
                                   <li><a class="list" href="{{ route('about') }}">About Us</a></li>
                                   <li><a class="list" href="{{ route('contact') }}">Contact Us</a></li>
                                   <li><a class="list" href="{{ route('membership') }}">Membership Options</a></li>
-                                  @auth
+                                  {{-- @auth
                                       <li><a class="list" href="{{ route('video-library.index') }}">Video Library</a></li>
-                                  @endauth
+                                  @endauth --}}
                                   <li><a class="list" href="{{ route('lesson') }}">Quick Lessons</a></li>
                               </ul>
                           </div>
@@ -59,15 +59,15 @@
                                   <li><a class="list" href="{{ route('about') }}">About Us</a></li>
                                   <li><a class="list" href="{{ route('contact') }}">Contact Us</a></li>
                                   <li><a class="list" href="{{ route('membership') }}">Membership Options</a></li>
-                                  @auth
+                                  {{-- @auth
                                       <li><a class="list" href="{{ route('video-library.index') }}">Video Library</a></li>
-                                  @endauth
+                                  @endauth --}}
                                   <li><a class="list" href="{{ route('lesson') }}">Quick Lessons</a></li>
                               </ul>
                           </div>
                           <div class="loginbtns mt-3">
                               @auth
-                                  <a class="signinbtn" href="{{ Auth::user()->hasRole('Admin') ? route('admin.dashboard') : route('parent.dashboard') }}">Dashboard</a>
+                                  <a class="signupbtn" href="{{ Auth::user()->hasRole('Admin') ? route('admin.dashboard') : route('parent.dashboard') }}">Dashboard</a>
                               @else
                                   <a class="signupbtn" href="{{ route('register') }}">Sign Up</a>
                                   <a class="signinbtn" href="{{ route('login') }}">Sign In</a>

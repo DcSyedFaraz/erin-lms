@@ -78,7 +78,7 @@
                     @foreach($items as $item)
                         <div class="col-md-6 col-lg-4">
                             <div class="library-card h-100">
-                                <div class="media-thumb {{ $item->thumbnail_url ? '' : 'no-thumb' }}" @if($item->thumbnail_url) style="background-image: url('{{ $item->thumbnail_url }}')" @endif>
+                                <div class="media-thumb {{ $item->thumbnail_url ? '' : 'no-thumb' }}" @if($item->thumbnail_url) style="background-image: url('{{ asset('storage/' . $item->thumbnail_path) }}')" @endif>
                                     <span class="badge bg-dark">{{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}</span>
                                 </div>
                                 <div class="card-body">

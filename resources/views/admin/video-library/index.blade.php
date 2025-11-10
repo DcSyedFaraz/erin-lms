@@ -32,31 +32,36 @@
                             <tr>
                                 <td>
                                     <strong>{{ $item->title }}</strong>
-                                    @if($item->is_featured)
+                                    @if ($item->is_featured)
                                         <span class="badge bg-warning text-dark ms-1">Featured</span>
                                     @endif
-                                    <div class="small text-muted">{{ \Illuminate\Support\Str::limit($item->description, 80) }}</div>
+                                    <div class="small text-muted">
+                                        {{ \Illuminate\Support\Str::limit($item->description, 80) }}</div>
                                 </td>
-                                <td>{{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}</td>
+                                <td>{{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}
+                                </td>
                                 <td>{{ ucfirst($item->access_tier) }}</td>
                                 <td>
-                                    @if($item->is_published)
+                                    @if ($item->is_published)
                                         <span class="badge bg-success">Live</span>
-                                        <div class="small text-muted">{{ optional($item->published_at)->diffForHumans() }}</div>
+                                        <div class="small text-muted">{{ optional($item->published_at)->diffForHumans() }}
+                                        </div>
                                     @else
                                         <span class="badge bg-secondary">Draft</span>
                                     @endif
                                 </td>
                                 <td>{{ $item->updated_at->diffForHumans() }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('admin.video-library.edit', $item) }}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="{{ route('admin.video-library.edit', $item) }}"
+                                        class="btn btn-outline-primary btn-sm">Edit</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
                                 <td colspan="6" class="text-center py-4">
                                     <p class="mb-1">No items yet.</p>
-                                    <a class="btn btn-link" href="{{ route('admin.video-library.create') }}">Create your first upload</a>
+                                    <a class="btn btn-link" href="{{ route('admin.video-library.create') }}">Create your
+                                        first upload</a>
                                 </td>
                             </tr>
                         @endforelse
