@@ -100,6 +100,13 @@ New social users are auto-verified and assigned the Parent role.
 - Uploaded thumbnails and module assets are stored on the `public` disk.
 - Ensure you have run: php artisan storage:link
 
+## Video Library
+
+- Subscription plans now support tier metadata (Silver, Golden, Platinum) with summary text for access, update cadence, and purpose. Assign a tier when creating/editing plans so the gating rules know which audience can view each drop.
+- Admins can upload curated videos, poems, premium short films, and short clips from **Admin → Video Library**. Files are stored on the `public` disk, and you can also link to external hosts while scheduling publish dates or marking featured drops.
+- Authenticated subscribers with an active plan can browse `/video-library` for a plan overview, format filters, and gated access. Higher tiers automatically inherit content from lower tiers.
+- Non-subscribed users are redirected to the membership page along with guidance to upgrade if they attempt to access the library.
+
 ## Testing
 
 - php artisan test

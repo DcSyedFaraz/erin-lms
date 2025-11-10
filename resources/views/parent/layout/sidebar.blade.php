@@ -42,6 +42,14 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('video-library.index') }}"
+                        class="nav-link {{ request()->routeIs('video-library.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-photo-video"></i>
+                        <p>Video Library</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('parent.courses.my') }}"
                         class="nav-link {{ request()->routeIs('parent.courses.my') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>

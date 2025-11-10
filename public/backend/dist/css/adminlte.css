@@ -33492,7 +33492,7 @@ html.maximized-card {
 }
 
 .dark-mode .alert-info {
-  color: #fff;
+  color: #000;
   background-color: #3498db;
   border-color: #258cd1;
 }

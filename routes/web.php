@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\SubscriptionAssignmentController;
 use App\Http\Controllers\Admin\SubscriptionReportController;
+use App\Http\Controllers\Admin\VideoLibraryController as AdminVideoLibraryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ use App\Http\Controllers\ParentChildController;
 use App\Http\Controllers\ChildDashboardController;
 use App\Http\Controllers\ChildQuizController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\VideoLibraryController as SubscriberVideoLibraryController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -55,6 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/subscriptions/cancel', [SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
 });
 
+Route::middleware(['auth', 'subscribed'])->group(function () {
+    Route::get('/video-library', [SubscriberVideoLibraryController::class, 'index'])->name('video-library.index');
+    Route::get('/video-library/{videoLibraryItem}', [SubscriberVideoLibraryController::class, 'show'])->name('video-library.show');
+});
+
 Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -80,6 +87,7 @@ Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('courses/{course}/modules/reorder', [ModuleController::class, 'reorder'])->name('modules.reorder');
 
     Route::resource('plans', SubscriptionPlanController::class);
+    Route::resource('video-library', AdminVideoLibraryController::class)->names('admin.video-library');
 
     // Manual Subscription Assignment
     Route::get('subscriptions/assign', [SubscriptionAssignmentController::class, 'create'])->name('admin.subscriptions.assign.create');

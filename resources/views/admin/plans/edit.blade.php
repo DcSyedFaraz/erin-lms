@@ -55,6 +55,32 @@
                                 </select>
                             </div>
 
+                            <div class="mb-3">
+                                <label>Tier (optional)</label>
+                                <select name="tier_key" class="form-control">
+                                    <option value="">-- Select Tier --</option>
+                                    @foreach(\App\Models\SubscriptionPlan::TIER_LEVELS as $tier => $order)
+                                        <option value="{{ $tier }}" {{ old('tier_key', $plan->tier_key) === $tier ? 'selected' : '' }}>{{ ucfirst($tier) }}</option>
+                                    @endforeach
+                                </select>
+                                <small class="text-muted d-block">Tier selection powers the new video library gating.</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Access Summary</label>
+                                    <input type="text" name="access_summary" value="{{ old('access_summary', $plan->access_summary) }}" class="form-control" placeholder="Basic curated content library">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Content Updates</label>
+                                    <input type="text" name="content_updates_summary" value="{{ old('content_updates_summary', $plan->content_updates_summary) }}" class="form-control" placeholder="Weekly">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Purpose</label>
+                                    <input type="text" name="purpose_summary" value="{{ old('purpose_summary', $plan->purpose_summary) }}" class="form-control" placeholder="Ideal for casual users">
+                                </div>
+                            </div>
+
                             <div class="mb-3 form-check">
                                 <input type="checkbox" name="is_trial" value="1" class="form-check-input"
                                     {{ old('is_trial', $plan->is_trial) ? 'checked' : '' }}>

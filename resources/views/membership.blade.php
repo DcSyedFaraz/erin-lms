@@ -28,14 +28,35 @@
                 <div class="row align-items-center">
                     @php $currentPriceId = $currentPriceId ?? null; @endphp
                     @forelse(($plans ?? []) as $plan)
+                        @php
+                            $tierMeta = \App\Models\SubscriptionPlan::tierMeta($plan->tier_key);
+                        @endphp
                         <div class="col-md-6 col-lg-4">
                             <div class="card p-3 h-100 d-flex flex-column">
                                 <div class="flex-grow-1">
-                                    <h2 class="card-heading">{{ $plan->name }}</h2>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h2 class="card-heading mb-0">{{ $plan->name }}</h2>
+                                        @if($plan->tier_key)
+                                            <span class="badge bg-primary text-uppercase">{{ $plan->tier_key }}</span>
+                                        @endif
+                                    </div>
                                     <div class="price">
                                         <h4>${{ number_format($plan->price, 2) }} <span class="small-price">/{{ $plan->interval }}</span></h4>
                                     </div>
-
+                                    @if($tierMeta['tagline'])
+                                        <p class="text-muted small">{{ $tierMeta['tagline'] }}</p>
+                                    @endif
+                                    <ul class="list-unstyled small mb-3">
+                                        @if($plan->access_summary ?? $tierMeta['access'])
+                                            <li><strong>Access:</strong> {{ $plan->access_summary ?? $tierMeta['access'] }}</li>
+                                        @endif
+                                        @if($plan->content_updates_summary ?? $tierMeta['updates'])
+                                            <li><strong>Content Updates:</strong> {{ $plan->content_updates_summary ?? $tierMeta['updates'] }}</li>
+                                        @endif
+                                        @if($plan->purpose_summary ?? $tierMeta['purpose'])
+                                            <li><strong>Purpose:</strong> {{ $plan->purpose_summary ?? $tierMeta['purpose'] }}</li>
+                                        @endif
+                                    </ul>
                                     @if(($plan->features ?? null) && $plan->features->count())
                                         <ul class="features">
                                             @foreach($plan->features as $feature)

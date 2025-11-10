@@ -62,13 +62,21 @@
                      </a>
                  </li>
 
-                 <li class="nav-item">
-                 <a href="{{ route('courses.index') }}"
-                         class="nav-link {{ request()->routeIs(['courses.*', 'modules.*']) ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-book-open"></i>
-                         <p>Courses</p>
-                     </a>
-                 </li>
+                <li class="nav-item">
+                <a href="{{ route('courses.index') }}"
+                        class="nav-link {{ request()->routeIs(['courses.*', 'modules.*']) ? 'active' : '' }}">
+                       <i class="nav-icon fas fa-book-open"></i>
+                        <p>Courses</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                <a href="{{ route('admin.video-library.index') }}"
+                        class="nav-link {{ request()->routeIs('admin.video-library.*') ? 'active' : '' }}">
+                       <i class="nav-icon fas fa-photo-video"></i>
+                        <p>Video Library</p>
+                    </a>
+                </li>
 
                  <li class="nav-item">
                      <a href="{{ route('categories.index') }}"

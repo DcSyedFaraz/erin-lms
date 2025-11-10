@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SubscriptionPlan;
 use App\Models\SubscriptionFeature;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Stripe\Product;
 use Stripe\Stripe;
 use Stripe\Price;
@@ -40,6 +41,10 @@ class SubscriptionPlanController extends Controller
             'price' => 'required|numeric|min:0',
             'interval' => 'required|in:month,year',
             'is_trial' => 'nullable|boolean',
+            'tier_key' => ['nullable', Rule::in(array_keys(SubscriptionPlan::TIER_LEVELS)), Rule::unique('subscription_plans', 'tier_key')],
+            'access_summary' => 'nullable|string|max:255',
+            'content_updates_summary' => 'nullable|string|max:255',
+            'purpose_summary' => 'nullable|string|max:255',
             'features' => 'array',
             'features.*.name' => 'nullable|string',
             'features.*.value' => 'nullable|string',
@@ -63,12 +68,18 @@ class SubscriptionPlanController extends Controller
         ]);
 
         // 3. Save to local DB
+        $tierKey = $request->tier_key;
         $plan = SubscriptionPlan::create([
             'name' => $request->name,
             'stripe_price_id' => $price->id,
             'price' => $request->price,
             'interval' => $request->interval,
             'is_trial' => $request->is_trial ?? false,
+            'tier_key' => $tierKey,
+            'tier_priority' => SubscriptionPlan::tierPriority($tierKey),
+            'access_summary' => $request->access_summary ?? SubscriptionPlan::tierMeta($tierKey)['access'],
+            'content_updates_summary' => $request->content_updates_summary ?? SubscriptionPlan::tierMeta($tierKey)['updates'],
+            'purpose_summary' => $request->purpose_summary ?? SubscriptionPlan::tierMeta($tierKey)['purpose'],
         ]);
 
         // Save any provided features
@@ -110,12 +121,20 @@ class SubscriptionPlanController extends Controller
      */
     public function update(Request $request, SubscriptionPlan $plan)
     {
-        $data = $request->validate([
+        $rules = [
             'name' => 'required|string',
             'price' => 'required|numeric|min:0',
             'interval' => 'required|in:month,year',
             'is_trial' => 'nullable|boolean',
             'stripe_price_id' => 'nullable|string',
+            'tier_key' => [
+                'nullable',
+                Rule::in(array_keys(SubscriptionPlan::TIER_LEVELS)),
+                Rule::unique('subscription_plans', 'tier_key')->ignore($plan->id)
+            ],
+            'access_summary' => 'nullable|string|max:255',
+            'content_updates_summary' => 'nullable|string|max:255',
+            'purpose_summary' => 'nullable|string|max:255',
             'features' => 'array',
             'features.*.id' => 'nullable|integer|exists:subscription_features,id',
             'features.*.name' => 'nullable|string',
@@ -123,41 +142,53 @@ class SubscriptionPlanController extends Controller
             'features.*.sort_order' => 'nullable|integer',
             'feature_delete_ids' => 'array',
             'feature_delete_ids.*' => 'integer|exists:subscription_features,id',
-        ]);
+        ];
 
-        // Sync changes to Stripe (product name and pricing)
-        Stripe::setApiKey(config('services.stripe.secret'));
-        $currentStripePriceId = $plan->stripe_price_id;
-        $currentPriceObj = $currentStripePriceId ? Price::retrieve($currentStripePriceId) : null;
-        $productId = $currentPriceObj?->product;
+        $data = $request->validate($rules);
 
-        if ($productId) {
-            // Update product name if changed
-            if ($plan->name !== $data['name']) {
-                $product = Product::retrieve($productId);
-                $product->name = $data['name'];
-                $product->save();
-            }
-            // Allow manual relink to an existing price if explicitly provided
-            if (!empty($data['stripe_price_id'])) {
-                $plan->stripe_price_id = $data['stripe_price_id'];
-            }
-            // If price or interval changed, create a new price and deactivate old one
-            $priceChanged = ((float) $plan->price !== (float) $data['price']) || ($plan->interval !== $data['interval']);
-            if ($priceChanged) {
-                $newPrice = Price::create([
-                    'unit_amount' => (int) round(((float) $data['price']) * 100),
-                    'currency' => 'usd',
-                    'recurring' => ['interval' => $data['interval']],
-                    'product' => $productId,
-                ]);
+        // Check if any Stripe-related fields changed
+        $nameChanged = $plan->name !== $data['name'];
+        $priceChanged = ((float) $plan->price !== (float) $data['price']) || ($plan->interval !== $data['interval']);
+        $stripePriceIdChanged = !empty($data['stripe_price_id']) && $plan->stripe_price_id !== $data['stripe_price_id'];
+        $needsStripeUpdate = $nameChanged || $priceChanged || $stripePriceIdChanged;
+        $stripeWasUpdated = false;
 
-                if ($currentPriceObj) {
-                    $currentPriceObj->active = false;
-                    $currentPriceObj->save();
+        // Only sync to Stripe if something actually changed
+        if ($needsStripeUpdate && $plan->stripe_price_id) {
+            Stripe::setApiKey(config('services.stripe.secret'));
+            $currentStripePriceId = $plan->stripe_price_id;
+            $currentPriceObj = Price::retrieve($currentStripePriceId);
+            $productId = $currentPriceObj->product;
+
+            if ($productId) {
+                // Update product name if changed
+                if ($nameChanged) {
+                    $product = Product::retrieve($productId);
+                    $product->name = $data['name'];
+                    $product->save();
+                    $stripeWasUpdated = true;
                 }
 
-                $plan->stripe_price_id = $newPrice->id;
+                // Allow manual relink to an existing price if explicitly provided
+                if ($stripePriceIdChanged) {
+                    $plan->stripe_price_id = $data['stripe_price_id'];
+                    $stripeWasUpdated = true;
+                }
+                // If price or interval changed, create a new price and deactivate old one
+                elseif ($priceChanged) {
+                    $newPrice = Price::create([
+                        'unit_amount' => (int) round(((float) $data['price']) * 100),
+                        'currency' => 'usd',
+                        'recurring' => ['interval' => $data['interval']],
+                        'product' => $productId,
+                    ]);
+
+                    $currentPriceObj->active = false;
+                    $currentPriceObj->save();
+
+                    $plan->stripe_price_id = $newPrice->id;
+                    $stripeWasUpdated = true;
+                }
             }
         }
 
@@ -166,9 +197,12 @@ class SubscriptionPlanController extends Controller
         $plan->price = $data['price'];
         $plan->interval = $data['interval'];
         $plan->is_trial = $request->boolean('is_trial');
-
-
-
+        $tierKey = $data['tier_key'] ?? null;
+        $plan->tier_key = $tierKey;
+        $plan->tier_priority = SubscriptionPlan::tierPriority($tierKey);
+        $plan->access_summary = $data['access_summary'] ?? SubscriptionPlan::tierMeta($tierKey)['access'];
+        $plan->content_updates_summary = $data['content_updates_summary'] ?? SubscriptionPlan::tierMeta($tierKey)['updates'];
+        $plan->purpose_summary = $data['purpose_summary'] ?? SubscriptionPlan::tierMeta($tierKey)['purpose'];
         $plan->save();
 
         $deleteIds = collect($request->input('feature_delete_ids', []))->filter()->all();
@@ -199,7 +233,11 @@ class SubscriptionPlanController extends Controller
             }
         }
 
-        return redirect()->route('plans.index')->with('success', 'Plan and features updated and synced to Stripe.');
+        $message = $stripeWasUpdated
+            ? 'Plan and features updated and synced to Stripe.'
+            : 'Plan and features updated.';
+
+        return redirect()->route('plans.index')->with('success', $message);
     }
 
     /**

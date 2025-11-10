@@ -53,5 +53,36 @@ class User extends Authenticatable
         return $this->hasMany(ChildProfile::class, 'user_id');
     }
 
+    public function currentSubscriptionPlan(): ?SubscriptionPlan
+    {
+        $subscription = $this->subscription('default');
+        if (!$subscription || !$subscription->stripe_price) {
+            return null;
+        }
 
+        return SubscriptionPlan::where('stripe_price_id', $subscription->stripe_price)->first();
+    }
+
+    public function subscriptionTierKey(): ?string
+    {
+        return $this->currentSubscriptionPlan()?->tier_key;
+    }
+
+    public function subscriptionTierPriority(): int
+    {
+        return SubscriptionPlan::tierPriority($this->subscriptionTierKey());
+    }
+
+    public function canAccessTier(?string $tierKey): bool
+    {
+        if (!$tierKey) {
+            return false;
+        }
+
+        if (!$this->subscription('default')) {
+            return false;
+        }
+
+        return $this->subscriptionTierPriority() >= SubscriptionPlan::tierPriority($tierKey);
+    }
 }

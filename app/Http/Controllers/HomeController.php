@@ -35,7 +35,7 @@ class HomeController extends Controller
 
     public function membership()
     {
-        $plans = SubscriptionPlan::with('features')->orderBy('price')->get();
+        $plans = SubscriptionPlan::with('features')->ordered()->get();
         $user = Auth::user();
         $currentPriceId = $user?->subscription('default')?->stripe_price;
         return view('membership', compact('plans', 'currentPriceId'));

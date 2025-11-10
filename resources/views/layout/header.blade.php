@@ -17,6 +17,9 @@
                                   <li><a class="list" href="{{ route('about') }}">About Us</a></li>
                                   <li><a class="list" href="{{ route('contact') }}">Contact Us</a></li>
                                   <li><a class="list" href="{{ route('membership') }}">Membership Options</a></li>
+                                  @auth
+                                      <li><a class="list" href="{{ route('video-library.index') }}">Video Library</a></li>
+                                  @endauth
                                   <li><a class="list" href="{{ route('lesson') }}">Quick Lessons</a></li>
                               </ul>
                           </div>
@@ -24,8 +27,12 @@
                   </div>
                   <div class="col-lg-2 col-md-4 d-none d-md-none d-lg-block px-2">
                       <div class="loginbtns">
-                          <a class="signupbtn" href="{{ route('register') }}">Sign Up</a>
-                          <a class="signinbtn" href="{{ route('login') }}">Sign In</a>
+                          @auth
+                              <a class="signinbtn" href="{{ Auth::user()->hasRole('Admin') ? route('admin.dashboard') : route('parent.dashboard') }}">Dashboard</a>
+                          @else
+                              <a class="signupbtn" href="{{ route('register') }}">Sign Up</a>
+                              <a class="signinbtn" href="{{ route('login') }}">Sign In</a>
+                          @endauth
                       </div>
                   </div>
                   <div class="col-6 col-md-6 d-lg-none d-md-block d-block">
@@ -52,15 +59,20 @@
                                   <li><a class="list" href="{{ route('about') }}">About Us</a></li>
                                   <li><a class="list" href="{{ route('contact') }}">Contact Us</a></li>
                                   <li><a class="list" href="{{ route('membership') }}">Membership Options</a></li>
+                                  @auth
+                                      <li><a class="list" href="{{ route('video-library.index') }}">Video Library</a></li>
+                                  @endauth
                                   <li><a class="list" href="{{ route('lesson') }}">Quick Lessons</a></li>
                               </ul>
                           </div>
-                      </div>
-                  </div>
-                  <div class="col-lg-2 col-md-4 d-none d-md-none d-lg-block px-2">
-                       <div class="loginbtns">
-                          <a class="signupbtn" href="{{ route('register') }}">Sign Up</a>
-                          <a class="signinbtn" href="{{ route('login') }}">Sign In</a>
+                          <div class="loginbtns mt-3">
+                              @auth
+                                  <a class="signinbtn" href="{{ Auth::user()->hasRole('Admin') ? route('admin.dashboard') : route('parent.dashboard') }}">Dashboard</a>
+                              @else
+                                  <a class="signupbtn" href="{{ route('register') }}">Sign Up</a>
+                                  <a class="signinbtn" href="{{ route('login') }}">Sign In</a>
+                              @endauth
+                          </div>
                       </div>
                   </div>
               </div>

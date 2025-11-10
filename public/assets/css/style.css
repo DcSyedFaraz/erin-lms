@@ -749,6 +749,138 @@ body {
 
 .lesson-main .innersec1 {
     width: max-content;
+    /* Video Library */
+    .video-library-hero {
+        background: #f7f4ff;
+        padding: 60px 0 40px;
+    }
+
+    .video-library-hero .eyebrow {
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.2em;
+        color: #7b5bff;
+    }
+
+    .video-library-hero .tier-cards .tier-card {
+        border: 1px solid #e2d9ff;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        background: #fff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .video-library-hero .tier-cards .tier-card.active {
+        border-color: #7b5bff;
+        box-shadow: 0 10px 24px rgba(123, 91, 255, 0.2);
+    }
+
+    .current-plan-pill {
+        display: inline-flex;
+        gap: 10px;
+        align-items: baseline;
+        background: #1f1b58;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 999px;
+    }
+
+    .current-plan-pill .label {
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        opacity: 0.8;
+    }
+
+    .current-plan-pill .price-tag {
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .plan-meta {
+        padding-left: 18px;
+        margin-top: 20px;
+    }
+
+    .video-library-content {
+        padding-top: 40px;
+        background: #fff;
+    }
+
+    .filter-buttons .btn {
+        margin: 4px;
+    }
+
+    .library-card {
+        border: 1px solid #f0ebff;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 10px 20px rgba(20, 9, 76, 0.06);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .library-card .media-thumb {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    .library-card .media-thumb.no-thumb {
+        background-image: linear-gradient(135deg, #7b5bff, #f78da7);
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 12px;
+    }
+
+    .library-card .media-thumb .badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .library-card .card-body {
+        padding: 18px;
+        flex: 1;
+    }
+
+    .library-card .tier-label {
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        color: #a58dff;
+    }
+
+    .empty-state {
+        border-radius: 16px;
+    }
+
+    .video-detail-hero {
+        background: linear-gradient(120deg, #09053a, #1f1b58);
+        color: #fff;
+        padding: 50px 0;
+    }
+
+    .video-detail-body {
+        background: #faf7ff;
+        padding-top: 30px;
+    }
+
+    .video-detail-body video {
+        border-radius: 12px;
+        background: #000;
+    }
+
+    .poem-body {
+        white-space: pre-wrap;
+        font-family: 'Georgia', serif;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
 
 }
 

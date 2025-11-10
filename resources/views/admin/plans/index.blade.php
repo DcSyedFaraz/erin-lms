@@ -26,6 +26,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Tier</th>
                             <th>Price</th>
                             <th>Interval</th>
                             <th>Trial?</th>
@@ -37,6 +38,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $plan->name }}</td>
+                                <td>{{ $plan->tier_key ? ucfirst($plan->tier_key) : '—' }}</td>
                                 <td>${{ $plan->price }}</td>
                                 <td>{{ $plan->interval }}</td>
                                 <td>{{ $plan->is_trial ? 'Yes' : 'No' }}</td>
