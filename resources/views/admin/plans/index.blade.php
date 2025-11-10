@@ -8,8 +8,18 @@
                 {{-- Heading and Create Button --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4>Subscription Plans</h4>
-                    <a href="{{ route('plans.create') }}" class="btn btn-primary">+ Create Plan</a>
+                    @if($planLimitReached)
+                        <button class="btn btn-secondary" disabled>Plan Limit Reached</button>
+                    @else
+                        <a href="{{ route('plans.create') }}" class="btn btn-primary">+ Create Plan</a>
+                    @endif
                 </div>
+
+                @if($planLimitReached)
+                    <div class="alert alert-info">
+                        The platform supports up to three subscription plans (Silver, Golden, Platinum). Delete or edit an existing plan before creating another.
+                    </div>
+                @endif
 
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>

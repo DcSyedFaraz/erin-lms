@@ -882,6 +882,58 @@ body {
         line-height: 1.6;
     }
 
+    /* Alerts */
+    .alert {
+        border-radius: 14px;
+        border: none;
+        padding: 14px 18px;
+        box-shadow: 0 10px 25px rgba(15, 20, 58, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .alert::before {
+        font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "Font Awesome 5 Pro", "Font Awesome 6 Pro";
+        font-weight: 900;
+        font-style: normal;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.4);
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, #e4fde1, #c9f7d8);
+        color: #135f31;
+    }
+
+    .alert-success::before {
+        content: "\f00c";
+    }
+
+    .alert-info {
+        background: linear-gradient(135deg, #e6f0ff, #dfe3ff);
+        color: #112a5b;
+    }
+
+    .alert-info::before {
+        content: "\f05a";
+    }
+
+    .alert-danger {
+        background: linear-gradient(135deg, #ffe3e3, #ffd1d1);
+        color: #7a1b1b;
+    }
+
+    .alert-danger::before {
+        content: "\f071";
+    }
+
 }
 
 .lesson-main .inner-sec2 {

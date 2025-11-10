@@ -20,6 +20,7 @@ class SubscriptionPlanController extends Controller
     {
         return view('admin.plans.index', [
             'plans' => SubscriptionPlan::all(),
+            'planLimitReached' => SubscriptionPlan::count() >= 3,
         ]);
     }
 
@@ -28,6 +29,10 @@ class SubscriptionPlanController extends Controller
      */
     public function create()
     {
+        if (SubscriptionPlan::count() >= 3) {
+            return redirect()->route('plans.index')->with('error', 'You can only create up to three subscription plans.');
+        }
+
         return view('admin.plans.create');
     }
 
@@ -36,6 +41,10 @@ class SubscriptionPlanController extends Controller
      */
     public function store(Request $request)
     {
+        if (SubscriptionPlan::count() >= 3) {
+            return back()->withInput()->withErrors('Plan limit reached. Delete an existing plan before creating a new one.');
+        }
+
         $request->validate([
             'name' => 'required|string',
             'price' => 'required|numeric|min:0',

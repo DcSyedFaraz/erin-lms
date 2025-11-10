@@ -476,11 +476,60 @@
 }
 
 /* Alert styling */
-.alert-info {
-    border-radius: 10px;
+.alert {
+    border-radius: 14px;
     border: none;
-    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
-    border-left: 4px solid #17a2b8;
+    padding: 14px 18px;
+    box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.alert::before {
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "Font Awesome 5 Pro", "Font Awesome 6 Pro";
+    font-weight: 900;
+    font-style: normal;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #e7f5ff, #d0ebff);
+    color: #084c61;
+}
+
+.alert-info::before {
+    content: "\f05a";
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #e5f8ea, #d2f5df);
+    color: #1a5e2d;
+}
+
+.alert-success::before {
+    content: "\f00c";
+}
+
+.alert-danger,
+.alert-error,
+.alert-warning {
+    background: linear-gradient(135deg, #ffe3e3, #ffd6d1);
+    color: #7a1b1b;
+}
+
+.alert-danger::before,
+.alert-error::before,
+.alert-warning::before {
+    content: "\f071";
 }
 
 /* Progress indicators */
