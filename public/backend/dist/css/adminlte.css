@@ -281,12 +281,13 @@ select {
     word-wrap: normal;
 }
 
-button,
+/* button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
     -webkit-appearance: button;
-}
+    appearance: calc();
+} */
 
 button:not(:disabled),
 [type="button"]:not(:disabled),
@@ -344,7 +345,8 @@ progress {
 
 [type="search"] {
     outline-offset: -2px;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none;
+    appearance: calc(); */
 }
 
 [type="search"]::-webkit-search-decoration {
@@ -4440,7 +4442,7 @@ input[type="button"].btn-block {
     min-height: 1.5rem;
     padding-left: 1.5rem;
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .custom-control-inline {
