@@ -3,8 +3,8 @@
             <div class="container">
                 <div class="foot-d">
                     <div class="firstcol">
-                        <a href="index.html">
-                            <img class="foot-logo" src="{{ asset('assets/images/logo.png') }}" alt="">
+                        <a href="/">
+                            <img class="foot-logo" src="{{ asset('assets/images/logo2.png') }}" alt="">
                         </a>
                         <h4>Follow Our Social Media</h4>
                         <div class="socials">

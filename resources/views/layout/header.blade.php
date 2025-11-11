@@ -3,8 +3,8 @@
           <div class="container d-block">
               <div class="row align-items-center">
                   <div class="col-lg-2 col-md-6 col-6 px-2">
-                      <a href="index.html">
-                          <img class="navlogo" src="{{ asset('assets/images/logo-black.png') }}" alt="">
+                      <a href="/">
+                          <img class="navlogo" src="{{ asset('assets/images/logo2.png') }}" alt="">
                       </a>
                   </div>
                   <div class="col-lg-8 col-md-6 d-none d-md-none d-lg-block px-2">
