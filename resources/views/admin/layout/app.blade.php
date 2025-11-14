@@ -35,6 +35,8 @@
         integrity="sha512-rDHV59PgRefDUbMm2lSjvf0ZhXZy3wgROFyao0JxZPGho3oOuWejq/ELx0FOZJpgaE5QovVtRN65Y3rrb7JhdQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" /> {{-- Custom Course & Module Styles --}}
     <link rel="stylesheet" href="{{ asset('assets/css/admin-course-module.css') }}">
+    {{-- Video Library Styles --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/video-library.css') }}">
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
