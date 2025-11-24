@@ -35,6 +35,9 @@
                                     @if ($item->is_featured)
                                         <span class="badge bg-warning text-dark ms-1">Featured</span>
                                     @endif
+                                    @if ($item->is_standalone)
+                                        <span class="badge bg-dark ms-1">Standalone</span>
+                                    @endif
                                     <div class="small text-muted">
                                         {{ \Illuminate\Support\Str::limit($item->description, 80) }}</div>
                                 </td>

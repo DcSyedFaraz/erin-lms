@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->hasMany(ChildProfile::class, 'user_id');
     }
 
+    public function videoPurchases()
+    {
+        return $this->hasMany(VideoPurchase::class);
+    }
+
     public function currentSubscriptionPlan(): ?SubscriptionPlan
     {
         $subscription = $this->subscription('default');
@@ -84,5 +89,16 @@ class User extends Authenticatable
         }
 
         return $this->subscriptionTierPriority() >= SubscriptionPlan::tierPriority($tierKey);
+    }
+
+    public function canAccessVideo(VideoLibraryItem $item): bool
+    {
+        if ($this->canAccessTier($item->access_tier)) {
+            return true;
+        }
+
+        $purchase = $item->activePurchaseFor($this);
+
+        return (bool) $purchase;
     }
 }

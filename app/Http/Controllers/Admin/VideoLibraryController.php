@@ -123,6 +123,11 @@ class VideoLibraryController extends Controller
             'is_featured' => 'nullable|boolean',
             'is_published' => 'nullable|boolean',
             'published_at' => 'nullable|date',
+            'is_standalone' => 'nullable|boolean',
+            'standalone_price' => 'nullable|numeric|min:1',
+            'standalone_rental_price' => 'nullable|numeric|min:1',
+            'standalone_rental_hours' => 'nullable|integer|min:24|max:168',
+            'standalone_category' => 'nullable|string|max:255',
         ];
 
         $validated = $request->validate($rules);
@@ -143,9 +148,26 @@ class VideoLibraryController extends Controller
 
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_published'] = $request->boolean('is_published');
+        $validated['is_standalone'] = $request->boolean('is_standalone');
         $validated['published_at'] = $request->filled('published_at')
             ? Carbon::parse($request->input('published_at'))
             : null;
+
+        if ($validated['is_standalone']) {
+            if ($request->missing('standalone_price') && $request->missing('standalone_rental_price')) {
+                $request->validate([
+                    'standalone_price' => 'required_without:standalone_rental_price|numeric|min:1',
+                    'standalone_rental_price' => 'required_without:standalone_price|numeric|min:1',
+                ]);
+            }
+
+            $validated['standalone_rental_hours'] = $request->integer('standalone_rental_hours') ?: 72;
+        } else {
+            $validated['standalone_price'] = null;
+            $validated['standalone_rental_price'] = null;
+            $validated['standalone_rental_hours'] = null;
+            $validated['standalone_category'] = null;
+        }
 
         return $validated;
     }

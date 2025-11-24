@@ -23,6 +23,7 @@ use App\Http\Controllers\ChildDashboardController;
 use App\Http\Controllers\ChildQuizController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\VideoLibraryController as SubscriberVideoLibraryController;
+use App\Http\Controllers\VideoPurchaseController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -57,9 +58,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/subscriptions/cancel', [SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
 });
 
-Route::middleware(['auth', 'subscribed'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/video-library', [SubscriberVideoLibraryController::class, 'index'])->name('video-library.index');
     Route::get('/video-library/{videoLibraryItem}', [SubscriberVideoLibraryController::class, 'show'])->name('video-library.show');
+    Route::post('/video-library/{videoLibraryItem}/purchase', [VideoPurchaseController::class, 'checkout'])->name('video-library.purchase');
+    Route::get('/video-library/{videoLibraryItem}/purchase/success', [VideoPurchaseController::class, 'success'])->name('video-library.purchase.success');
+    Route::get('/video-library/{videoLibraryItem}/purchase/cancel', [VideoPurchaseController::class, 'cancel'])->name('video-library.purchase.cancel');
 });
 
 Route::prefix('admin')->middleware(['auth', 'role:Admin'])->group(function () {

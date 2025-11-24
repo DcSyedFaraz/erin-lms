@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -34,12 +35,21 @@ class VideoLibraryItem extends Model
         'is_published',
         'published_at',
         'uploaded_by',
+        'is_standalone',
+        'standalone_price',
+        'standalone_rental_price',
+        'standalone_rental_hours',
+        'standalone_category',
     ];
 
     protected $casts = [
         'is_featured' => 'bool',
         'is_published' => 'bool',
+        'is_standalone' => 'bool',
         'published_at' => 'datetime',
+        'standalone_price' => 'float',
+        'standalone_rental_price' => 'float',
+        'standalone_rental_hours' => 'integer',
     ];
 
     protected static function booted(): void
@@ -86,6 +96,24 @@ class VideoLibraryItem extends Model
         return $this->belongsTo(User::class, 'uploaded_by');
     }
 
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(VideoPurchase::class, 'video_library_item_id');
+    }
+
+    public function activePurchaseFor(User $user): ?VideoPurchase
+    {
+        return $this->purchases()
+            ->where('user_id', $user->id)
+            ->where('status', 'paid')
+            ->where(function (Builder $query) {
+                $query->whereNull('rental_expires_at')
+                    ->orWhere('rental_expires_at', '>', now());
+            })
+            ->latest('purchased_at')
+            ->first();
+    }
+
     public function getMediaUrlAttribute(): ?string
     {
         if ($this->media_path) {
@@ -107,6 +135,31 @@ class VideoLibraryItem extends Model
     public function isPoem(): bool
     {
         return $this->content_type === 'poem';
+    }
+
+    public function isStandaloneEnabled(): bool
+    {
+        return $this->is_standalone && ($this->standalone_price !== null || $this->standalone_rental_price !== null);
+    }
+
+    public function rentalDurationHours(): int
+    {
+        return (int) ($this->standalone_rental_hours ?: 72);
+    }
+
+    public function supportsRental(): bool
+    {
+        return $this->standalone_rental_price !== null;
+    }
+
+    public function buyPrice(): ?float
+    {
+        return $this->standalone_price !== null ? (float) $this->standalone_price : null;
+    }
+
+    public function rentPrice(): ?float
+    {
+        return $this->standalone_rental_price !== null ? (float) $this->standalone_rental_price : null;
     }
 
     public function isVideoLike(): bool

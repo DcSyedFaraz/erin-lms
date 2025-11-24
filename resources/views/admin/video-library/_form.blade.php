@@ -91,5 +91,45 @@
         <div class="alert alert-info">
             Assigning a lower tier automatically unlocks higher tiers (e.g., Golden & Platinum subscribers can see Silver releases).
         </div>
+
+        <div class="border rounded p-3">
+            <label class="form-label d-flex align-items-center justify-content-between">
+                <span>Standalone Purchase</span>
+                <span class="badge bg-dark">Buy / Rent</span>
+            </label>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="is_standalone" value="1" id="isStandalone"
+                    {{ old('is_standalone', $item->is_standalone ?? false) ? 'checked' : '' }}>
+                <label class="form-check-label" for="isStandalone">Enable pay-per-view (outside subscription)</label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Standalone Category</label>
+                <input type="text" name="standalone_category" class="form-control"
+                    value="{{ old('standalone_category', $item->standalone_category ?? '') }}"
+                    placeholder="Poems Library, Special Performances, Behind-the-Scenes...">
+                <small class="text-muted">Used to group premium drops for storefront filters.</small>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="form-label">Buy Price (USD)</label>
+                    <input type="number" step="0.01" min="0" name="standalone_price" class="form-control"
+                        value="{{ old('standalone_price', $item->standalone_price ?? '') }}" placeholder="e.g. 9.99">
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label">Rent Price (USD)</label>
+                    <input type="number" step="0.01" min="0" name="standalone_rental_price" class="form-control"
+                        value="{{ old('standalone_rental_price', $item->standalone_rental_price ?? '') }}" placeholder="e.g. 4.99">
+                </div>
+            </div>
+
+            <div class="mb-0">
+                <label class="form-label">Rental Window (hours)</label>
+                <input type="number" name="standalone_rental_hours" class="form-control" min="24" max="168"
+                    value="{{ old('standalone_rental_hours', $item->standalone_rental_hours ?? 72) }}" placeholder="48-72 recommended">
+                <small class="text-muted">Rentals expire after this window from the payment approval time.</small>
+            </div>
+        </div>
     </div>
 </div>
