@@ -31,17 +31,18 @@
                     <div class="thirdcol">
                         <h4>About Us</h4>
                         <ul class="footul">
-                            <li><a href="program.html">Program</a></li>
-                            <li><a href="blog.html">News & Blog</a></li>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="{{ route('program') }}">Program</a></li>
+                            <li><a href="{{ route('blog') }}">News & Blog</a></li>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
                         </ul>
                     </div>
                     <div class="fourthcol">
                         <h4>Quick Links</h4>
                         <ul class="footul">
-                            <li><a href="#">Membership Options</a></li>
-                            <li><a href="#">Quick Lessons</a></li>
+                            <li><a href="{{ route('membership') }}">Membership Options</a></li>
+                            <li><a href="{{ route('lesson') }}">Quick Lessons</a></li>
+                            <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
                         </ul>
                     </div>
                     <div class="fifthcol">

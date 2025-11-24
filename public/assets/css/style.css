@@ -736,6 +736,13 @@ body {
 
 /*  blog Main Page  */
 
+.lesson-h6 {
+    font-weight: 700;
+}
+
+.privacy1 :where(h4, h5) {
+    font-weight: 700;
+}
 
 
 /*  Quick Lessons Page  */

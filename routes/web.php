@@ -42,6 +42,7 @@ use App\Http\Controllers\VideoPurchaseController;
   Route::get('/membership', [HomeController::class, 'membership'])->name('membership');
   Route::get('/lesson', [HomeController::class, 'lesson'])->name('lesson');
   Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+  Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
 
 
 Route::middleware('auth')->group(function () {

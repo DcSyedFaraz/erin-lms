@@ -18,12 +18,7 @@
             <div class="container">
                 <div class="inner-sec2">
                     <h3 class="black-head">Our Pricing Plans</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the
-                        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                        type
-                        and
-                        scrambled it to make a type specimen book.</p>
+                    <p>Give your child the gift of music, confidence, and creativity with some fun math activities for kindergarten and pre-k ages. Each plan is designed to help kids learn at their own pace, stay engaged, and enjoy every moment of their musical journey.</p>
                 </div>
                 <div class="row align-items-center">
                     @php $currentPriceId = $currentPriceId ?? null; @endphp
