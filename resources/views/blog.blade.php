@@ -17,14 +17,9 @@
         <section class="sec4">
             <div class="container">
                 <div class="inner-sec7">
-                    <h5 class="purple-head">OUR NEWS</h5>
-                    <h3 class="black-head">Get the Latest Updates</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the
-                        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                        type
-                        and
-                        scrambled it to make a type specimen book.</p>
+                    <h5 class="purple-head">The Learning Loop</h5>
+                    <h3 class="black-head">News & Articles on Smarter Learning</h3>
+                    <p>Every day brings a discovery. From learning tips and parenting insights to real stories from classrooms, explore what makes education meaningful and child development impactful.</p>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-md-4 col-lg-4">

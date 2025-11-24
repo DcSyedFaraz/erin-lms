@@ -22,7 +22,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-5">
                         <div class="contact-form">
-                            <h3>Contact Us</h3>
+                            <h3>Let’s Talk Learning</h3>
                             <form class="c-form">
                                 <input type="text" required name="f-name" class="form-field" placeholder="Name">
                                 <input type="tel" required name="number" class="form-field" placeholder="Phone Number">
@@ -34,10 +34,10 @@
                     </div>
                     <div class="col-md-7">
                         <div class="cta">
-                            <img src="{{ asset('assets/images/contact/form-beside.png') }} 1500s" alt="">
+                            <img src="{{ asset('assets/images/contact/form-beside.png') }}" alt="">
                             <div class="cta-content">
                                 <h5>GET IN TOUCH</h5>
-                                <p>Lorem Ipsum is simply dummy</p>
+                                <p>Learn Math with Music</p>
                             </div>
                         </div>
                     </div>

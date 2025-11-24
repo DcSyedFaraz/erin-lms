@@ -46,6 +46,11 @@ class HomeController extends Controller
         return view('lesson');
     }
 
+    public function privacy()
+    {
+        return view('privacy');
+    }
+
     public function dashboard()
     {
         if (Auth::user()->hasRole('Admin')) {
