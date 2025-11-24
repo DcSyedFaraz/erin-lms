@@ -11,19 +11,19 @@
                             <i class="fas fa-crown me-1"></i>{{ ucfirst($item->access_tier) }} Tier
                         </p>
                         @if ($item->is_standalone)
-                            <span class="badge bg-dark text-uppercase">Standalone</span>
+                            <span class="badge bg-dark text-uppercase"> Standalone</span>
                         @endif
                         @if ($item->standalone_category)
-                            <span class="badge bg-info text-dark">{{ $item->standalone_category }}</span>
+                            <span class="badge bg-info text-dark">Category: {{ $item->standalone_category }}</span>
                         @endif
                     </div>
                     <h1 class="black-head">{{ $item->title }}</h1>
                     <p class="lead">{{ $item->description }}</p>
                     <ul class="small text-muted list-inline">
-                        <li class="list-inline-item"><i
-                                class="fas fa-video me-1"></i>{{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}
+                        <li class="list-inline-item"><i class="fas fa-video me-1"></i>
+                            {{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}
                         </li>
-                        <li class="list-inline-item"><i class="far fa-clock me-1"></i>Published
+                        <li class="list-inline-item"><i class="far fa-clock me-1"></i> Published
                             {{ optional($item->published_at)->format('M d, Y') ?? $item->created_at->format('M d, Y') }}
                         </li>
                     </ul>
@@ -79,7 +79,8 @@
                                                     @csrf
                                                     <input type="hidden" name="access_type" value="buy">
                                                     <button type="submit" class="btn btn-primary">
-                                                        <i class="fas fa-unlock me-1"></i>Buy • ${{ number_format($item->buyPrice(), 2) }}
+                                                        <i class="fas fa-unlock me-1"></i>Buy •
+                                                        ${{ number_format($item->buyPrice(), 2) }}
                                                     </button>
                                                 </form>
                                             @endif
@@ -88,7 +89,8 @@
                                                     @csrf
                                                     <input type="hidden" name="access_type" value="rent">
                                                     <button type="submit" class="btn btn-outline-primary">
-                                                        <i class="fas fa-clock me-1"></i>Rent • ${{ number_format($item->rentPrice(), 2) }}
+                                                        <i class="fas fa-clock me-1"></i>Rent •
+                                                        ${{ number_format($item->rentPrice(), 2) }}
                                                     </button>
                                                 </form>
                                             @endif
@@ -108,12 +110,12 @@
                         <div class="card-body">
                             <h6 class="text-uppercase text-muted">Your Access</h6>
                             @if ($planIncluded)
-                                <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i>Included in your
+                                <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Included in your
                                     {{ $plan?->name ?? 'subscription' }}</p>
                             @endif
                             @if ($activePurchase)
                                 @if ($activePurchase->isRental())
-                                    <p class="mb-1"><i class="fas fa-film me-1 text-primary"></i>Rental active
+                                    <p class="mb-1"><i class="fas fa-film me-1 text-primary"></i> Rental active
                                         @if ($activePurchase->rental_expires_at)
                                             until {{ $activePurchase->rental_expires_at->format('M d, h:ia') }}
                                         @endif
@@ -137,11 +139,12 @@
                                 <h6 class="text-uppercase text-muted">Standalone Options</h6>
                                 <ul class="list-unstyled small mb-3">
                                     @if ($item->buyPrice())
-                                        <li><i class="fas fa-unlock me-2 text-success"></i>Buy: Lifetime access within
+                                        <li><i class="fas fa-unlock me-2 text-success"></i> Buy: Lifetime access within
                                             platform</li>
                                     @endif
                                     @if ($item->supportsRental())
-                                        <li><i class="fas fa-clock me-2 text-primary"></i>Rent: {{ $item->rentalDurationHours() }}
+                                        <li><i class="fas fa-clock me-2 text-primary"></i> Rent:
+                                            {{ $item->rentalDurationHours() }}
                                             hrs from purchase</li>
                                     @endif
                                 </ul>
@@ -150,7 +153,7 @@
                                         <form method="POST" action="{{ route('video-library.purchase', $item) }}">
                                             @csrf
                                             <input type="hidden" name="access_type" value="buy">
-                                            <button type="submit" class="btn btn-primary w-100">
+                                            <button type="submit" class="btn btn-primary my-1 w-100">
                                                 Buy • ${{ number_format($item->buyPrice(), 2) }}
                                             </button>
                                         </form>

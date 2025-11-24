@@ -6,7 +6,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <p class="eyebrow"><i class="fas fa-ticket-alt me-1"></i> Subscriptions + Standalone</p>
-                    <h1 class="black-head mb-3"><i class="fas fa-film me-2"></i>Video Library & PPV</h1>
+                    <h1 class="black-head mb-3"><i class="fas fa-film me-2"></i> Video Library & PPV</h1>
                     <p class="lead mb-4">
                         Stream curated videos, premium short films, inspiring poems, and cinematic clips. Unlock through
                         your subscription or buy/rent standalone drops like special performances and behind-the-scenes.
@@ -14,17 +14,17 @@
                     @if ($plan)
                         @php $meta = \App\Models\SubscriptionPlan::tierMeta($plan->tier_key); @endphp
                         <div class="current-plan-pill">
-                            <span class="label"><i class="fas fa-crown me-1"></i>Current Plan</span>
+                            <span class="label"><i class="fas fa-crown me-1"></i> Current Plan</span>
                             <strong>{{ $plan->name }}</strong>
-                            <span class="price-tag"><i
-                                    class="fas fa-tag me-1"></i>${{ number_format($plan->price, 2) }}/{{ $plan->interval }}</span>
+                            <span class="price-tag"><i class="fas fa-tag me-1"></i>
+                                ${{ number_format($plan->price, 2) }}/{{ $plan->interval }}</span>
                         </div>
                         <ul class="plan-meta">
-                            <li><i class="fas fa-unlock-alt me-2"></i><strong>Access:</strong>
+                            <li><i class="fas fa-unlock-alt me-2"></i> <strong>Access:</strong>
                                 {{ $plan->access_summary ?? $meta['access'] }}</li>
-                            <li><i class="fas fa-sync-alt me-2"></i><strong>Content Updates:</strong>
+                            <li><i class="fas fa-sync-alt me-2"></i> <strong>Content Updates:</strong>
                                 {{ $plan->content_updates_summary ?? $meta['updates'] }}</li>
-                            <li><i class="fas fa-bullseye me-2"></i><strong>Purpose:</strong>
+                            <li><i class="fas fa-bullseye me-2"></i> <strong>Purpose:</strong>
                                 {{ $plan->purpose_summary ?? $meta['purpose'] }}</li>
                         </ul>
                     @endif
@@ -51,16 +51,16 @@
                                         {{ ucfirst($tier) }} Plan
                                     </h5>
                                     @if ($tierKey === $tier)
-                                        <span class="badge bg-success"><i class="fas fa-check me-1"></i>Yours</span>
+                                        <span class="badge bg-success"><i class="fas fa-check me-1"></i> Yours</span>
                                     @endif
                                 </div>
                                 <p class="small text-muted mb-1">{{ $copy['tagline'] }}</p>
                                 <ul class="small list-unstyled mb-0">
-                                    <li><i class="fas fa-check-circle text-success me-1"></i><strong>Access:</strong>
+                                    <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Access:</strong>
                                         {{ $copy['access'] }}</li>
-                                    <li><i class="fas fa-check-circle text-success me-1"></i><strong>Updates:</strong>
+                                    <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Updates:</strong>
                                         {{ $copy['updates'] }}</li>
-                                    <li><i class="fas fa-check-circle text-success me-1"></i><strong>Purpose:</strong>
+                                    <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Purpose:</strong>
                                         {{ $copy['purpose'] }}</li>
                                 </ul>
                             </div>
@@ -75,21 +75,22 @@
         <div class="container">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                 <div class="filters-title">
-                    <h4 class="mb-0"><i class="fas fa-grid-2 me-2"></i>Browse Library</h4>
+                    <h4 class="mb-0"><i class="fas fa-grid-2 me-2"></i> Browse Library</h4>
                     <p class="small text-muted mb-0">Filter by format, ownership, or standalone offers.</p>
                 </div>
                 <div class="filter-buttons">
                     <a href="{{ route('video-library.index', array_filter(['type' => $activeFilter])) }}"
                         class="btn btn-sm {{ $scope ? 'btn-outline-secondary' : ($activeFilter ? 'btn-outline-secondary' : 'btn-primary') }}">
-                        <i class="fas fa-th me-1"></i>All
+                        <i class="fas fa-th me-1"></i> All
                     </a>
                     <a href="{{ route('video-library.index', array_filter(['type' => $activeFilter, 'scope' => 'standalone'])) }}"
                         class="btn btn-sm {{ $scope === 'standalone' ? 'btn-primary' : 'btn-outline-secondary' }}">
-                        <i class="fas fa-ticket-alt me-1"></i>Standalone
+                        <i class="fas fa-ticket-alt me-1"></i> Standalone
                     </a>
                     <a href="{{ route('video-library.index', array_filter(['type' => $activeFilter, 'scope' => 'owned'])) }}"
                         class="btn btn-sm {{ $scope === 'owned' ? 'btn-primary' : 'btn-outline-secondary' }}">
-                        <i class="fas fa-folder-open me-1"></i>My Library{{ $ownedIds ? ' (' . count($ownedIds) . ')' : '' }}
+                        <i class="fas fa-folder-open me-1"></i> My
+                        Library{{ $ownedIds ? ' (' . count($ownedIds) . ')' : '' }}
                     </a>
                     @foreach ($contentTypes as $key => $label)
                         <a href="{{ route('video-library.index', ['type' => $key]) }}"
@@ -105,7 +106,7 @@
                             @else
                                 <i class="fas fa-file me-1"></i>
                             @endif
-                            {{ $label }}
+                            &nbsp;{{ $label }}
                         </a>
                     @endforeach
                 </div>
@@ -113,7 +114,7 @@
 
             @if ($items->count() === 0)
                 <div class="empty-state">
-                    <h5><i class="fas fa-inbox me-2"></i>No releases yet</h5>
+                    <h5><i class="fas fa-inbox me-2"></i> No releases yet</h5>
                     @if ($scope === 'owned')
                         <p class="text-muted mb-0">You haven't purchased or rented any standalone videos yet.</p>
                     @elseif($scope === 'standalone')
@@ -145,7 +146,7 @@
                                         @else
                                             <i class="fas fa-file me-1"></i>
                                         @endif
-                                        {{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}
+                                        &nbsp;{{ \App\Models\VideoLibraryItem::CONTENT_TYPES[$item->content_type] ?? $item->content_type }}
                                     </span>
                                 </div>
                                 <div class="card-body">
@@ -161,29 +162,32 @@
                                     <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
                                         @if ($purchase)
                                             @if ($purchase->isRental())
-                                                <span class="badge bg-primary"><i class="fas fa-clock me-1"></i>Rental
+                                                <span class="badge bg-primary"><i class="fas fa-clock me-1"></i> Rental
                                                     @if ($purchase->rental_expires_at)
                                                         until {{ $purchase->rental_expires_at->format('M d, h:ia') }}
                                                     @endif
                                                 </span>
                                             @else
-                                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>Owned</span>
+                                                <span class="badge bg-success"><i class="fas fa-check me-1"></i> Owned</span>
                                             @endif
                                         @elseif ($included)
-                                            <span class="badge bg-success"><i class="fas fa-unlock me-1"></i>Included</span>
+                                            <span class="badge bg-success"><i class="fas fa-unlock me-1"></i> Included</span>
                                         @elseif($item->isStandaloneEnabled())
                                             @if ($item->buyPrice())
-                                                <span class="badge bg-dark"><i class="fas fa-unlock me-1"></i>Buy
+                                                <span class="badge bg-dark"><i class="fas fa-unlock me-1"></i> Buy
                                                     ${{ number_format($item->buyPrice(), 2) }}</span>
                                             @endif
                                             @if ($item->supportsRental())
-                                                <span class="badge bg-light text-dark border border-secondary"><i class="fas fa-clock me-1"></i>Rent ${{ number_format($item->rentPrice(), 2) }}</span>
+                                                <span class="badge bg-light text-dark border border-secondary"><i
+                                                        class="fas fa-clock me-1"></i> Rent
+                                                    ${{ number_format($item->rentPrice(), 2) }}</span>
                                             @endif
                                         @endif
                                     </div>
                                     <a href="{{ route('video-library.show', $item) }}"
                                         class="btn btn-outline-primary btn-sm">
-                                        <i class="fas fa-play me-1"></i>{{ ($included || $purchase) ? 'Watch now' : 'View & unlock' }}
+                                        <i
+                                            class="fas fa-play me-1"></i> {{ $included || $purchase ? 'Watch now' : 'View & unlock' }}
                                     </a>
                                 </div>
                             </div>
