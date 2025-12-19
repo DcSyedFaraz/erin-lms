@@ -55,7 +55,8 @@
                                     @endif
 
                                     <form action="{{ route('courses.destroy', $course) }}" method="POST"
-                                        style="display:inline;">
+                                        style="display:inline;"
+                                        onsubmit="return confirm('Are you sure you want to delete this course?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
