@@ -165,7 +165,7 @@
                             <ul class="mb-0 mt-2">
                                 <li>You can upload multiple files of each type</li>
                                 <li>Maximum file size depends on your server configuration</li>
-                                <li>Supported formats: PDF, common image formats (JPG, PNG, GIF), common video formats (MP4, AVI, MOV)</li>
+                                <li>Supported formats: PDF, common image formats (JPG, PNG, GIF), common video formats (MP4, M4V, AVI, MOV)</li>
                             </ul>
                         </div>
                     </div>

@@ -26,7 +26,7 @@ class ModuleController extends Controller
             'text_contents.*' => 'nullable|string',
             'pdfs.*' => 'file|mimes:pdf',
             'images.*' => 'image',
-            'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo',
+            'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-m4v',
         ]);
 
         $order = ($course->modules()->max('order') ?? 0) + 1;
@@ -90,7 +90,7 @@ class ModuleController extends Controller
             'text_contents.*' => 'nullable|string',
             'pdfs.*' => 'file|mimes:pdf',
             'images.*' => 'image',
-            'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo',
+            'videos.*' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-m4v',
             'remove_contents' => 'array',
             'remove_contents.*' => 'integer|exists:module_contents,id',
         ]);
