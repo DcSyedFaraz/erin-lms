@@ -31,9 +31,9 @@
                         @foreach ($courses as $course)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $course->title }}</td>
+                                <td>{{ $course->title ?? 'N/A' }}</td>
                                 <td>{{ ucfirst($course->status) }}</td>
-                                <td>{{ $course->category->name }}</td>
+                                <td>{{ $course->category->name ?? 'N/A' }}</td>
                                 <td>
                                     <a href="{{ route('courses.show', $course->id) }}"
                                         class="btn btn-info btn-sm">View</a>

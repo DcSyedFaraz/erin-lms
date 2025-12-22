@@ -18,7 +18,8 @@ class CourseController extends Controller
     {
         $courses = Course::with('category')
             ->latest()
-            ->when($request->status, fn($q) => $q->where('status', $request->status));
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
+            ->get();
 
         return view('admin.courses.index', compact('courses'));
     }
