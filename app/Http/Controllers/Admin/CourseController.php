@@ -18,8 +18,7 @@ class CourseController extends Controller
     {
         $courses = Course::with('category')
             ->latest()
-            ->when($request->status, fn($q) => $q->where('status', $request->status))
-            ->paginate(10);
+            ->when($request->status, fn($q) => $q->where('status', $request->status));
 
         return view('admin.courses.index', compact('courses'));
     }
