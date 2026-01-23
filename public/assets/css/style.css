@@ -236,13 +236,15 @@ body {
 
 .sec3-inner:after {
     content: "";
-    height: 334px;
-    width: 226px;
+    height: 100%;
+    width: 250px;
     position: absolute;
     background-size: cover;
-    background: url(../images/rat.png);
-    top: -190px;
+    background: url(../images/doll.png);
+    top: -163px;
     z-index: 1;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .sec3-inner {
@@ -561,11 +563,12 @@ body {
     height: 100%;
     width: 27%;
     position: absolute;
-    background: url(../images/duck.png);
-    bottom: 135px;
+    background: url(../images/man.png);
+    bottom: 23px;
     z-index: 1;
-    left: -145px;
-    background-size: cover;
+    left: 0px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 /* Footer */
@@ -590,11 +593,11 @@ body {
 
 .program-main .sec4::before {
     content: "";
-    background: url(../images/rat.png);
-    height: 410px;
+    background: url(../images/doll.png) no-repeat;
+    height: 100%;
     width: 226px;
     position: absolute;
-    background-size: cover;
+    background-size: contain;
     top: -75px;
     z-index: 1;
     left: 0;
@@ -756,6 +759,7 @@ body {
 
 .lesson-main .innersec1 {
     width: max-content;
+
     /* Video Library */
     .video-library-hero {
         background: #f7f4ff;
@@ -1984,7 +1988,7 @@ body {
 }
 
 
-@media screen and (min-device-width: 1024px) and (max-device-width: 1270px) { 
+@media screen and (min-device-width: 1024px) and (max-device-width: 1270px) {
     .innersec1 {
         width: 100%;
     }
@@ -2106,4 +2110,19 @@ body {
 
     /*  Lesson Page  */
 
+}
+
+@media (max-width: 1600px) {
+    .footer::after {
+        content: "";
+        height: 100%;
+        width: 27%;
+        position: absolute;
+        background: url(../images/man.png);
+        bottom: 23px;
+        z-index: 1;
+        left: -10%;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
 }
